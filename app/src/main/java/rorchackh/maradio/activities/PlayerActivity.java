@@ -174,12 +174,10 @@ public class PlayerActivity extends BaseActivity implements GestureDetector.OnGe
     private void applyUI() {
 
         UITitle.setText(currentStation.getTitle());
-
         UISubTitle.setText(currentStation.getSubtitle());
-        // UISubTitle.setVisibility(currentStation.getSubtitle().isEmpty() ? View.GONE : View.VISIBLE);
 
         String image = currentStation.getImageLink();
-        if (image.equals("")) {
+        if (image == null || image.equals("")) {
             UIImg.setBackgroundResource(R.drawable.none);
         } else {
             Globals.imageLoader.displayImage(image, UIImg);
@@ -190,12 +188,10 @@ public class PlayerActivity extends BaseActivity implements GestureDetector.OnGe
 
         int pause = R.drawable.ic_pause_large_dark;
         int play = R.drawable.ic_play_large_dark;
-        int liked = R.drawable.ic_nav_fav_dark;
 
         if (isLightTheme) {
             pause = R.drawable.ic_pause_large_light;
             play = R.drawable.ic_play_large_light;
-            liked = R.drawable.ic_nav_fav_light;
         }
 
 

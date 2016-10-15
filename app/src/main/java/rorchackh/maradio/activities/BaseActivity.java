@@ -17,6 +17,7 @@ import android.view.MenuItem;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.crash.FirebaseCrash;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -68,7 +69,18 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         FirebaseCrash.report(new Exception("My first Android non-fatal error"));
 
         if (Globals.imageLoader == null) {
-            ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
+
+            DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
+            ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
+                    .diskCacheExtraOptions(480, 800, null)
+                    .defaultDisplayImageOptions(defaultOptions)
+                    // .diskCache(new UnlimitedDiscCac (cacheDir)) // default
+                    .diskCacheSize(50 * 1024 * 1024)
+                    .diskCacheFileCount(100)
+                    .build();
             Globals.imageLoader = ImageLoader.getInstance();
             Globals.imageLoader.init(config);
         }

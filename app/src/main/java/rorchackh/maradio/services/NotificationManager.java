@@ -109,17 +109,22 @@ public class NotificationManager {
     private static void applyUI(Context context, RemoteViews contentView, RemoteViews expandedViews, Station station, String status) {
          contentView.setTextViewText(R.id.notification_title, station.toString());
 
-        // Todo: This needs to be fixed using the new image library
         String url = station.getImageLink();
         Log.i(Statics.debug, String.format("URL in the notification is %s", url));
-        if (url  == null || url.equals("")) {
-            contentView.setImageViewResource(R.id.notification_image_small, R.drawable.none);
-            expandedViews.setImageViewResource(R.id.notification_image_big, R.drawable.none);
-        } else {
-            Bitmap image = Globals.imageLoader.loadImageSync(url);
 
-            contentView.setImageViewBitmap(R.id.notification_image_small, image);
-            contentView.setImageViewBitmap(R.id.notification_image_big, image);
+        contentView.setImageViewResource(R.id.notification_image_small, R.drawable.none);
+        expandedViews.setImageViewResource(R.id.notification_image_big, R.drawable.none);
+        if (url  != null && !url.equals("")) {
+
+            try {
+
+                Bitmap image = Globals.imageLoader.loadImageSync(url);
+
+                contentView.setImageViewBitmap(R.id.notification_image_small, image);
+                expandedViews.setImageViewBitmap(R.id.notification_image_big, image);
+
+            } catch (Exception ignored) {
+            }
         }
 
         expandedViews.setTextViewText(R.id.title, station.getTitle());
