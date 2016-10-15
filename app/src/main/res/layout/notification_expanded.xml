@@ -96,23 +96,25 @@
             android:layout_height="match_parent">
 
             <FrameLayout
-                android:id="@+id/prev"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:clickable="true">
+                android:clickable="false">
                 <Button
+                    android:id="@+id/prev"
                     android:layout_width="@dimen/notification_icon_dimensions"
                     android:layout_height="@dimen/notification_icon_dimensions"
                     android:background="@drawable/ic_prev_dark"
-                    android:layout_gravity="center" />
+                    android:layout_gravity="center"
+                    android:gravity="center" />
             </FrameLayout>
 
             <RelativeLayout
                 android:id="@+id/toggle_container"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:clickable="false">
                 <Button
                     android:layout_width="@dimen/notification_icon_dimensions"
                     android:layout_height="@dimen/notification_icon_dimensions"
@@ -134,16 +136,17 @@
             </RelativeLayout>
 
             <FrameLayout
-                android:id="@+id/next"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:clickable="true">
+                android:clickable="false">
                 <Button
+                    android:id="@+id/next"
                     android:layout_width="@dimen/notification_icon_dimensions"
                     android:layout_height="@dimen/notification_icon_dimensions"
                     android:background="@drawable/ic_next_dark"
-                    android:layout_gravity="center"  />
+                    android:layout_gravity="center"
+                    android:gravity="center" />
             </FrameLayout>
 
         </LinearLayout>
