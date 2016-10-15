@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+* Copyright (C) 2013 The Android Open Source Project
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*       http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+-->
+
+<!-- Layout for the expanded notification. -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="@color/secondaryColorDark"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="@dimen/notification_big_height"
+        android:layout_height="@dimen/notification_big_height"
+        android:id="@+id/notification_image_big"
+        android:contentDescription="@string/notif_default_title"
+        android:src="@drawable/none" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/notification_big_height">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="0dp"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_small_margin">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/notif_default_title"
+                    android:id="@+id/title"
+                    android:textColor="@color/primaryTextColorDark"
+                    android:textSize="@dimen/notification_title" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/notif_default_subtitle"
+                    android:id="@+id/subtitle"
+                    android:textColor="@color/secondaryTextColorDark"
+                    android:textSize="@dimen/notification_subtitle" />
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="@dimen/notification_small_height"
+                android:layout_height="match_parent"
+                android:id="@+id/stop"
+                android:clickable="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true">
+
+                <Button
+                    android:layout_width="@dimen/notification_icon_dimensions"
+                    android:layout_height="@dimen/notification_icon_dimensions"
+                    android:background="@drawable/ic_stop_dark"
+                    android:layout_alignParentRight="false"
+                    android:clickable="false"
+                    android:gravity="center"
+                    android:layout_gravity="center" />
+            </FrameLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:background="@drawable/border_top_dark"
+            android:layout_gravity="center_vertical"
+            android:baselineAligned="false"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:id="@+id/prev"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:clickable="true">
+                <Button
+                    android:layout_width="@dimen/notification_icon_dimensions"
+                    android:layout_height="@dimen/notification_icon_dimensions"
+                    android:background="@drawable/ic_prev_dark"
+                    android:layout_gravity="center" />
+            </FrameLayout>
+
+            <RelativeLayout
+                android:id="@+id/toggle_container"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+                <Button
+                    android:layout_width="@dimen/notification_icon_dimensions"
+                    android:layout_height="@dimen/notification_icon_dimensions"
+                    android:id="@+id/toggle"
+                    android:background="@drawable/ic_pause_dark"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:indeterminate="true" />
+
+                <ProgressBar
+                    android:id="@+id/loader"
+                    android:layout_width="@dimen/notification_icon_dimensions"
+                    android:layout_height="@dimen/notification_icon_dimensions"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:indeterminate="true"
+                    android:visibility="invisible" />
+
+            </RelativeLayout>
+
+            <FrameLayout
+                android:id="@+id/next"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:clickable="true">
+                <Button
+                    android:layout_width="@dimen/notification_icon_dimensions"
+                    android:layout_height="@dimen/notification_icon_dimensions"
+                    android:background="@drawable/ic_next_dark"
+                    android:layout_gravity="center"  />
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Dark Theme Colors -->
+    <color name="primaryColorDark">#000000</color>
+    <color name="secondaryColorDark">#2e2e2e</color>
+    <color name="thirdColorDark">#6b6b6b</color>
+
+    <color name="primaryTextColorDark">#ffffff</color>
+    <color name="secondaryTextColorDark">#ababab</color>
+
+    <!-- Light Theme Colors -->
+    <color name="primaryColorLight">#ececec</color>
+    <color name="secondaryColorLight">#c9c9c9</color>
+    <color name="thirdColorLight">#9f9f9f</color>
+
+    <color name="primaryTextColorLight">#000000</color>
+    <color name="secondaryTextColorLight">#545454</color>
+
+    <!-- Shared Colors -->
+    <color name="red">#d62525</color>
+</resources>

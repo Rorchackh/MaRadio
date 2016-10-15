@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/secondaryColorDark">
+
+    <ImageView
+        android:layout_width="@dimen/notification_small_height"
+        android:layout_height="@dimen/notification_small_height"
+        android:id="@+id/notification_image_small"
+        android:src="@drawable/none"
+        android:contentDescription="@string/notif_default_title"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/notification_small_height"
+        android:id="@+id/notification_title"
+        android:layout_gravity="center_vertical"
+        android:text="@string/notif_default_title"
+        android:maxLength="30"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/notification_title"
+        android:textColor="@color/secondaryTextColorDark"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentStart="false"
+        android:layout_toEndOf="@id/notification_image_small"
+        android:layout_toRightOf="@id/notification_image_small"
+        tools:ignore="RelativeOverlap" />
+
+    <FrameLayout
+        android:id="@+id/stop"
+        android:layout_width="@dimen/notification_small_height"
+        android:layout_height="@dimen/notification_small_height"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+        <Button
+            android:layout_width="@dimen/notification_icon_dimensions"
+            android:layout_height="@dimen/notification_icon_dimensions"
+            android:background="@drawable/ic_stop_dark"
+            android:layout_gravity="center"
+            android:contentDescription="@string/notif_default_title" />
+    </FrameLayout>
+</RelativeLayout>

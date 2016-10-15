@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="primaryColor" format="color" />
+    <attr name="secondaryColor" format="color" />
+    <attr name="thirdColor" format="color" />
+
+    <attr name="primaryTextColor" format="color" />
+    <attr name="secondaryTextColor" format="color" />
+
+    <!--drawables -->
+    <attr name="borderTop" format="reference" />
+    <attr name="background" format="reference" />
+    <attr name="stopIcon" format="reference" />
+    <attr name="prevIcon" format="reference" />
+    <attr name="nextIcon" format="reference" />
+    <attr name="playIcon" format="reference" />
+    <attr name="pauseIcon" format="reference" />
+    <attr name="playLargeIcon" format="reference" />
+    <attr name="pauseLargeIcon" format="reference" />
+    <attr name="allIcon" format="reference" />
+    <attr name="favIcon" format="reference" />
+    <attr name="favIconLiked" format="reference" />
+    <attr name="shareIcon" format="reference" />
+    <attr name="recordIcon" format="reference" />
+
+</resources>
+

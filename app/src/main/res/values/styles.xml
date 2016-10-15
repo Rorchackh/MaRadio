@@ -1,0 +1,66 @@
+<resources>
+
+    <!-- Dark application theme -->
+    <style name="MaRadioDarkTheme" parent="Theme.AppCompat">
+        <!-- Customize your theme here. -->
+        <item name="primaryColor">@color/primaryColorDark</item>
+        <item name="secondaryColor">@color/secondaryColorDark</item>
+        <item name="thirdColor">@color/thirdColorDark</item>
+
+        <item name="primaryTextColor">@color/primaryTextColorDark</item>
+        <item name="secondaryTextColor">@color/secondaryTextColorDark</item>
+
+        <item name="borderTop">@drawable/border_top_dark</item>
+        <item name="background">@drawable/background_dark</item>
+        <item name="stopIcon">@drawable/ic_stop_dark</item>
+        <item name="prevIcon">@drawable/ic_prev_dark</item>
+        <item name="nextIcon">@drawable/ic_next_dark</item>
+        <item name="playIcon">@drawable/ic_play_dark</item>
+        <item name="pauseIcon">@drawable/ic_pause_dark</item>
+        <item name="playLargeIcon">@drawable/ic_play_large_dark</item>
+        <item name="pauseLargeIcon">@drawable/ic_pause_large_dark</item>
+        <item name="allIcon">@drawable/ic_nav_all_dark</item>
+        <item name="favIcon">@drawable/ic_nav_fav_dark</item>
+        <item name="favIconLiked">@drawable/ic_nav_fav_red</item>
+        <item name="shareIcon">@drawable/ic_nav_share_dark</item>
+        <item name="recordIcon">@drawable/ic_record</item>
+    </style>
+
+    <style name="MaRadioDarkTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!--Light application theme -->
+    <style name="MaRadioLightTheme" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <item name="primaryColor">@color/primaryColorLight</item>
+        <item name="secondaryColor">@color/secondaryColorLight</item>
+        <item name="thirdColor">@color/thirdColorLight</item>
+
+        <item name="primaryTextColor">@color/primaryTextColorLight</item>
+        <item name="secondaryTextColor">@color/secondaryTextColorLight</item>
+
+        <item name="borderTop">@drawable/border_top_light</item>
+        <item name="background">@drawable/background_light</item>
+        <item name="stopIcon">@drawable/ic_stop_light</item>
+        <item name="prevIcon">@drawable/ic_prev_light</item>
+        <item name="nextIcon">@drawable/ic_next_light</item>
+        <item name="playIcon">@drawable/ic_play_light</item>
+        <item name="pauseIcon">@drawable/ic_pause_light</item>
+        <item name="playLargeIcon">@drawable/ic_play_large_light</item>
+        <item name="pauseLargeIcon">@drawable/ic_pause_large_light</item>
+        <item name="allIcon">@drawable/ic_nav_all_light</item>
+        <item name="favIcon">@drawable/ic_nav_fav_light</item>
+        <item name="favIconLiked">@drawable/ic_nav_fav_red</item>
+        <item name="shareIcon">@drawable/ic_nav_share_light</item>
+        <item name="recordIcon">@drawable/ic_record</item>
+
+    </style>
+
+    <style name="MaRadioLightTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+</resources>

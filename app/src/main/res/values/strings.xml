@@ -1,0 +1,44 @@
+<resources>
+
+
+    <!-- App & Activity Name-->
+    <string name="app_name">MaRadio</string>
+    <string name="tag_line">Listen to Morocco\'s Radios</string>
+
+    <!--Activity titles-->
+    <string name="title_activity_preferences">Settings</string>
+    <string name="title_activity_favorites">Favorites</string>
+    <string name="title_activity_player">Playing...</string>
+
+    <!--Navigation text-->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="nav_all">All Stations</string>
+    <string name="nav_favorites">Favorites</string>
+    <string name="nav_share">Share</string>
+
+    <!--Menu text-->
+    <string name="action_settings">Settings</string>
+    <string name="action_about">About</string>
+
+    <!--preferences keys and text-->
+    <string name="pref_key_language" translatable="false">language</string>
+    <string name="pref_key_columns" translatable="false">number_of_columns</string>
+    <string name="pref_key_light" translatable="false">is_light</string>
+
+    <string name="pref_columns_title">Number of columns</string>
+    <string name="pref_columns_summary">The number of columns in the radio listing grid</string>
+    <string name="pref_light_title">Light Theme</string>
+    <string name="pref_light_summary">Not into the emo look? Select this.</string>
+    <string name="language_title">Language</string>
+    <string name="language_summary">Voulez vous coucher avec moi, ce soir?</string>
+
+    <!--notifications text-->
+    <string name="notif_default_title">Hit Radio</string>
+    <string name="notif_default_subtitle">Hit Radio</string>
+
+    <!--Additional Text-->
+    <string name="loading_stations">Loading Stations...</string>
+
+</resources>

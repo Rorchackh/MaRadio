@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="column_labels">
+        <item>2 Grid Layout</item>
+        <item>3 Grid Layout</item>
+        <item>4 Grid Layout</item>
+    </string-array>
+
+    <string-array name="column_values">
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="language_labels">
+        <item>English</item>
+        <item>French</item>
+        <item>Arabic</item>
+        <item>Danish</item>
+    </string-array>
+
+    <string-array name="language_values">
+        <item>en</item>
+        <item>fr</item>
+        <item>ar</item>
+        <item>da</item>
+    </string-array>
+</resources>

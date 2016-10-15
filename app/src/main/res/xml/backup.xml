@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--Todo: test this using-->
+    <!--* adb shell bmgr run-->
+    <!--* adb shell bmgr fullbackup <PACKAGE>-->
+    <!--* uninstall the app-->
+    <!--* adb shell bmgr restore <PACKAGE>-->
+<full-backup-content>
+</full-backup-content>
