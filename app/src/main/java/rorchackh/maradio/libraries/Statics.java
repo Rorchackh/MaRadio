@@ -22,6 +22,4 @@ public class Statics {
 
     public static final String defaultGridSize = "2";
     public static final int notificationId = 1;
-
-    public static String FAVORITE_NAME = "favorite";
 }

@@ -10,6 +10,9 @@ import rorchackh.maradio.libraries.Globals;
 import rorchackh.maradio.libraries.Statics;
 import rorchackh.maradio.services.PlayerService;
 
+/**
+ * @todo: Support triple click on headset as an action to go back.
+ */
 public class HeadsetReceiver extends android.content.BroadcastReceiver {
 
     private static final long CLICK_DELAY = 500;
@@ -62,14 +65,7 @@ public class HeadsetReceiver extends android.content.BroadcastReceiver {
                     } else {
                         PlayerService.seek(context, Statics.SERVICE_NEXT);
                     }
-
-                // todo: change from long click to tripple click
-                } else if (event.getAction() == KeyEvent.ACTION_UP) {
-                    if (SystemClock.uptimeMillis() - event.getDownTime() > 2000) {
-                        PlayerService.seek(context, Statics.SERVICE_PREV);
-                    }
                 }
-
             }
 
             if (isOrderedBroadcast()) {

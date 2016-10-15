@@ -22,8 +22,8 @@ import rorchackh.maradio.services.PlayerService;
 
 public class ListingActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    protected void onCreate(Bundle savedInstanceState, boolean onlyFavs) {
-        super.onCreate(savedInstanceState, onlyFavs);
+    protected void onCreate(Bundle savedInstanceState, boolean isFav) {
+        super.onCreate(savedInstanceState, isFav);
 
         notificationBroadCaster.unregisterReceiver(super.receiver);
         receiver = createBroadcastReceiver();
@@ -35,7 +35,7 @@ public class ListingActivity extends BaseActivity implements NavigationView.OnNa
 
     }
 
-    protected Context plotStations(boolean onlyFavs) {
+    protected Context plotStations() {
         Context context = getBaseContext();
         LinearLayout radioListingLayout = (LinearLayout) findViewById(R.id.radio_list);
 
@@ -44,7 +44,7 @@ public class ListingActivity extends BaseActivity implements NavigationView.OnNa
 
         if (stations != null && stations.size() > 0)     {
             radioListingLayout.removeAllViews();
-            ListItem.show(context, stations, radioListingLayout, numberOfColumns, onlyFavs);
+            ListItem.show(context, stations, radioListingLayout, numberOfColumns, isFav);
         }
 
         return context;
@@ -91,12 +91,12 @@ public class ListingActivity extends BaseActivity implements NavigationView.OnNa
                     case Statics.DATABASE_READY:
 
                         if (isFav) {
-                            stations = StationManagerReceiver.getAll(context);
-                        } else {
                             stations = StationManagerReceiver.getFavs(context);
+                        } else {
+                            stations = StationManagerReceiver.getAll(context);
                         }
 
-                        plotStations(isFav);
+                        plotStations();
                         break;
                 }
             }

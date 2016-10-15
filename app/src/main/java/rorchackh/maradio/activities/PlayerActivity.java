@@ -46,6 +46,7 @@ public class PlayerActivity extends BaseActivity implements GestureDetector.OnGe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
+
         currentStation = intent.getParcelableExtra(Statics.station);
         boolean isFav = intent.getBooleanExtra(Statics.isFav, false);
 
@@ -60,6 +61,7 @@ public class PlayerActivity extends BaseActivity implements GestureDetector.OnGe
         isLightTheme = sharedPreferences.getBoolean(getString(R.string.pref_key_light), false);
         gestureDetector = new GestureDetector(this, this);
 
+        stations = intent.getParcelableArrayListExtra(Statics.stations);
         currentStationIndex = stations.indexOf(currentStation);
 
         setUIElements();
@@ -177,6 +179,7 @@ public class PlayerActivity extends BaseActivity implements GestureDetector.OnGe
         UISubTitle.setText(currentStation.getSubtitle());
 
         String image = currentStation.getImageLink();
+
         if (image == null || image.equals("")) {
             UIImg.setBackgroundResource(R.drawable.none);
         } else {
@@ -193,7 +196,6 @@ public class PlayerActivity extends BaseActivity implements GestureDetector.OnGe
             pause = R.drawable.ic_pause_large_light;
             play = R.drawable.ic_play_large_light;
         }
-
 
         playButton.setBackgroundResource(Globals.mediaPlayer.isPlaying() ? pause : play);
     }

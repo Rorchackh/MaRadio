@@ -40,7 +40,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
     boolean isFav;
 
-    protected void onCreate(Bundle savedInstanceState,  boolean onlyFavs) {
+    protected void onCreate(Bundle savedInstanceState,  boolean isFav) {
         super.onCreate(savedInstanceState);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -55,8 +55,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             }
         }
 
-        isFav = !onlyFavs;
-        stations = onlyFavs ? StationManagerReceiver.getFavs(this) : StationManagerReceiver.getAll(this);
+        stations = isFav ? StationManagerReceiver.getFavs(this) : StationManagerReceiver.getAll(this);
 
         ComponentName component = new ComponentName(this, HeadsetReceiver.class);
         AudioManager am = ((AudioManager) getSystemService(AUDIO_SERVICE));
@@ -77,7 +76,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
                     .diskCacheExtraOptions(480, 800, null)
                     .defaultDisplayImageOptions(defaultOptions)
-                    // .diskCache(new UnlimitedDiscCac (cacheDir)) // default
                     .diskCacheSize(50 * 1024 * 1024)
                     .diskCacheFileCount(100)
                     .build();

@@ -13,7 +13,7 @@ public class FavRadiosActivity extends ListingActivity {
         super.onCreate(savedInstanceState, true);
         setContentView(R.layout.content_listing);
 
-        plotStations(true);
+        plotStations();
     }
 
 }

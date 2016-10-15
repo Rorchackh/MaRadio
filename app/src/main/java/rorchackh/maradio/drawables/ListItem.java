@@ -22,7 +22,7 @@ import rorchackh.maradio.models.Station;
 
 public class ListItem extends ImageView {
 
-    private ListItem(Context context, Station station, ArrayList<Station> stations, int side, boolean onlyFavs) {
+    private ListItem(Context context, Station station, ArrayList<Station> stations, int side, boolean isFav) {
         super(context);
 
         this.setLayoutParams(new TableLayout.LayoutParams(side, side, 1));
@@ -39,11 +39,11 @@ public class ListItem extends ImageView {
                 Globals.imageLoader.displayImage(image, this);
             }
 
-            this.setOnClickListener(new RowClickListener(station, stations, onlyFavs));
+            this.setOnClickListener(new RowClickListener(station, stations, isFav));
         }
     }
 
-    public static void show(Context context, ArrayList<Station> stations, LinearLayout radioListingLayout, int numberOfColumns, boolean onlyFavs) {
+    public static void show(Context context, ArrayList<Station> stations, LinearLayout radioListingLayout, int numberOfColumns, boolean isFav) {
 
         LinearLayout r = new LinearLayout(context);
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
@@ -65,24 +65,24 @@ public class ListItem extends ImageView {
                 radioListingLayout.addView(r);
             }
 
-            r.addView(new ListItem(context, station, stations, height, onlyFavs));
+            r.addView(new ListItem(context, station, stations, height, isFav));
 
             if (i == limit - 1) {
-                while (++i % numberOfColumns != 0) r.addView(new ListItem(context, null, stations, height, onlyFavs));
+                while (++i % numberOfColumns != 0) r.addView(new ListItem(context, null, stations, height, isFav));
             }
         }
     }
 
     private class RowClickListener implements View.OnClickListener {
 
-        private boolean onlyFavs;
+        private boolean isFav;
         private Station currentStation;
         private ArrayList<Station> stations;
 
-        RowClickListener(Station station, ArrayList<Station> stations, boolean onlyFavs) {
+        RowClickListener(Station station, ArrayList<Station> stations, boolean isFav) {
             this.currentStation = station;
             this.stations = stations;
-            this.onlyFavs = onlyFavs;
+            this.isFav = isFav;
         }
 
         @Override
@@ -93,7 +93,7 @@ public class ListItem extends ImageView {
             Intent intent = new Intent(context, PlayerActivity.class);
 
             intent.putExtra(Statics.station, currentStation);
-            intent.putExtra(Statics.isFav, onlyFavs);
+            intent.putExtra(Statics.isFav, isFav);
             intent.putParcelableArrayListExtra(Statics.stations, stations);
 
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

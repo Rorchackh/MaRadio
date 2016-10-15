@@ -29,7 +29,7 @@ public class AllRadiosActivity extends ListingActivity {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav);
         navigationView.setNavigationItemSelectedListener(this);
 
-        plotStations(false);
+        plotStations();
     }
 
 }
