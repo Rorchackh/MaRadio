@@ -77,6 +77,10 @@ public class StationManagerReceiver {
 
             stations = new ArrayList<>();
             for (Station s: list) {
+                if (s == null) {
+                    continue;
+                }
+
                 if (s.isActive()) {
                     stations.add(index++, s);
                 }
