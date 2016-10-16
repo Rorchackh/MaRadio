@@ -16,7 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.crash.FirebaseCrash;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -64,8 +64,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
         notificationBroadCaster = LocalBroadcastManager.getInstance(this);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-
-        FirebaseCrash.report(new Exception("My first Android non-fatal error"));
 
         if (Globals.imageLoader == null) {
 

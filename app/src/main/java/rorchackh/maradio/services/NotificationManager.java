@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
+import com.google.firebase.crash.FirebaseCrash;
+
 import rorchackh.maradio.R;
 import rorchackh.maradio.activities.PlayerActivity;
 import rorchackh.maradio.libraries.Globals;
@@ -124,6 +126,7 @@ public class NotificationManager {
                 expandedViews.setImageViewBitmap(R.id.notification_image_big, image);
 
             } catch (Exception ignored) {
+                FirebaseCrash.report(ignored);
             }
         }
 

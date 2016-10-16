@@ -207,7 +207,7 @@ public class PlayerActivity extends BaseActivity implements GestureDetector.OnGe
             applyUI();
             playStation();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            FirebaseCrash.report(ex);
         }
     }
 
@@ -218,7 +218,7 @@ public class PlayerActivity extends BaseActivity implements GestureDetector.OnGe
             applyUI();
             playStation();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            FirebaseCrash.report(ex);
         }
     }
 
