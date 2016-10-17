@@ -24,6 +24,7 @@ import rorchackh.maradio.R;
 import rorchackh.maradio.libraries.Globals;
 import rorchackh.maradio.libraries.Statics;
 import rorchackh.maradio.models.Station;
+import rorchackh.maradio.receivers.StationManagerReceiver;
 import rorchackh.maradio.services.NotificationManager;
 import rorchackh.maradio.services.PlayerService;
 
@@ -62,6 +63,10 @@ public class PlayerActivity extends BaseActivity implements GestureDetector.OnGe
         gestureDetector = new GestureDetector(this, this);
 
         stations = intent.getParcelableArrayListExtra(Statics.stations);
+        if (stations == null) {
+            stations = isFav ? StationManagerReceiver.getFavs(this) : StationManagerReceiver.getAll(this);
+        }
+
         currentStationIndex = stations.indexOf(currentStation);
 
         setUIElements();
