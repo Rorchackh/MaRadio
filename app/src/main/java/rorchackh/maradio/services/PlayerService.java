@@ -25,7 +25,12 @@ public class PlayerService extends Service implements AudioManager.OnAudioFocusC
 
     @Override
     public int onStartCommand(Intent intent, int flag, int startId) {
+        if (intent == null) {
+            return START_NOT_STICKY;
+        }
+
         try {
+
             station = intent.getParcelableExtra(Statics.station);
             String action = intent.getStringExtra(Statics.SERVICE_ACTION);
 
