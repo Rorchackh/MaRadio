@@ -20,6 +20,11 @@ public class NotificationReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
+        if (intent == null) {
+            return;
+        }
+
         String action = intent.getStringExtra(Statics.SERVICE_MESSAGE);
         Station station = intent.getParcelableExtra(Statics.station);
 
