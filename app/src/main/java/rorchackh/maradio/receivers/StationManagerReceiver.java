@@ -86,13 +86,13 @@ public class StationManagerReceiver {
                 }
             }
 
-            Log.e(Statics.debug, String.format("Number of stations %d", list.size()));
-            Log.e(Statics.debug, String.format("Number of active stations %d", stations.size()));
+            Log.i(Statics.debug, String.format("Number of stations %d", list.size()));
+            Log.i(Statics.debug, String.format("Number of active stations %d", stations.size()));
 
             LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(context);
 
-            Intent newIntent = new Intent(Statics.SERVICE_MESSAGE);
-            newIntent.putExtra(Statics.SERVICE_MESSAGE, Statics.DATABASE_READY);
+            Intent newIntent = new Intent(Statics.DATABASE_MESSAGE);
+            newIntent.putExtra(Statics.DATABASE_MESSAGE, Statics.DATABASE_READY);
 
             broadcaster.sendBroadcast(newIntent);
         }

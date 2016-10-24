@@ -1,6 +1,5 @@
 package rorchackh.maradio.activities;
 
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,7 +16,6 @@ import android.view.MenuItem;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -29,30 +27,22 @@ import rorchackh.maradio.models.Station;
 import rorchackh.maradio.receivers.HeadsetReceiver;
 import rorchackh.maradio.receivers.StationManagerReceiver;
 
-
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    BroadcastReceiver receiver;
-    ArrayList<Station> stations = null;
-    LocalBroadcastManager notificationBroadCaster;
+    protected ArrayList<Station> stations = null;
+    protected FirebaseAnalytics mFirebaseAnalytics;
+    protected LocalBroadcastManager broadCastManager;
+    protected boolean isFav;
 
-    FirebaseAnalytics mFirebaseAnalytics;
-
-    boolean isFav;
-
-    protected void onCreate(Bundle savedInstanceState,  boolean isFav) {
+    protected void onCreate(Bundle savedInstanceState, boolean isFav) {
         super.onCreate(savedInstanceState);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isLightTheme = sharedPreferences.getBoolean(getString(R.string.pref_key_light), false);
 
         if (isLightTheme) {
-            String classio = this.getClass().toString();
-            if (classio.endsWith("AllRadiosActivity")) {
-                setTheme(R.style.MaRadioLightTheme_NoActionBar);
-            } else {
-                setTheme(R.style.MaRadioLightTheme);
-            }
+            String classIO = this.getClass().toString();
+            setTheme(classIO.endsWith("AllRadiosActivity") ? R.style.MaRadioLightTheme_NoActionBar : R.style.MaRadioLightTheme);
         }
 
         stations = isFav ? StationManagerReceiver.getFavs(this) : StationManagerReceiver.getAll(this);
@@ -62,15 +52,13 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         am.unregisterMediaButtonEventReceiver(component);
         am.registerMediaButtonEventReceiver(component);
 
-        notificationBroadCaster = LocalBroadcastManager.getInstance(this);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         if (Globals.imageLoader == null) {
-
             DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .build();
+                    .cacheInMemory(true)
+                    .cacheOnDisk(true)
+                    .build();
             ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
                     .diskCacheExtraOptions(480, 800, null)
                     .defaultDisplayImageOptions(defaultOptions)
@@ -80,6 +68,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             Globals.imageLoader = ImageLoader.getInstance();
             Globals.imageLoader.init(config);
         }
+
+        broadCastManager = LocalBroadcastManager.getInstance(this);
     }
 
     @Override
@@ -113,7 +103,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(this, AllRadiosActivity.class));
                 break;
             case R.id.nav_favorites:
-                 startActivity(new Intent(this, FavRadiosActivity.class));
+                startActivity(new Intent(this, FavRadiosActivity.class));
                 break;
             case R.id.nav_share:
 
@@ -131,5 +121,4 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 }

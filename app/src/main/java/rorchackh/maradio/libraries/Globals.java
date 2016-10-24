@@ -5,6 +5,8 @@ import android.media.MediaPlayer;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.util.ArrayList;
+
 import rorchackh.maradio.models.Station;
 
 public class Globals {
@@ -14,5 +16,5 @@ public class Globals {
     public static MediaPlayer mediaPlayer = new MediaPlayer();
 
     public static Station currentStation;
-    public static long currentClick = 0;
+    public static ArrayList<Station> stationList;
 }

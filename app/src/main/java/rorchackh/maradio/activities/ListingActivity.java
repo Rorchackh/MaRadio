@@ -7,32 +7,37 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.LinearLayout;
 
 import rorchackh.maradio.R;
 import rorchackh.maradio.drawables.ListItem;
-import rorchackh.maradio.libraries.Globals;
 import rorchackh.maradio.libraries.Statics;
 import rorchackh.maradio.receivers.StationManagerReceiver;
-import rorchackh.maradio.services.NotificationManager;
-import rorchackh.maradio.services.PlayerService;
 
 public class ListingActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private BroadcastReceiver dataBaseReceiver;
 
     protected void onCreate(Bundle savedInstanceState, boolean isFav) {
+        dataBaseReceiver = createBroadcastReceiver();
         super.onCreate(savedInstanceState, isFav);
+    }
 
-        notificationBroadCaster.unregisterReceiver(super.receiver);
-        receiver = createBroadcastReceiver();
-
-        notificationBroadCaster.registerReceiver(
-            receiver,
-            new IntentFilter(Statics.SERVICE_MESSAGE)
+    @Override
+    protected void onResume() {
+        broadCastManager.registerReceiver(
+            dataBaseReceiver,
+            new IntentFilter(Statics.DATABASE_MESSAGE)
         );
+        super.onResume();
+    }
 
+    @Override
+    protected void onStop() {
+        broadCastManager.unregisterReceiver(dataBaseReceiver);
+        super.onStop();
     }
 
     protected Context plotStations() {
@@ -50,44 +55,15 @@ public class ListingActivity extends BaseActivity implements NavigationView.OnNa
         return context;
     }
 
-    @NonNull
     protected BroadcastReceiver createBroadcastReceiver() {
         return new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
 
-                String s = intent.getStringExtra(Statics.SERVICE_MESSAGE);
+                String s = intent.getStringExtra(Statics.DATABASE_MESSAGE);
                 Log.d(Statics.debug, "The listing activity receives the message: " + s);
 
-                int currentStationIndex = stations.indexOf(Globals.currentStation);
-
-                boolean hasPrev = currentStationIndex > 0;
-                boolean hasNext = currentStationIndex < stations.size() - 1;
-
                 switch (s) {
-                    case Statics.SERVICE_PAUSE:
-                    case Statics.SERVICE_PREPARE:
-                    case Statics.SERVICE_PLAY:
-                        NotificationManager.show(getBaseContext(), Globals.currentStation, s, hasNext, hasPrev);
-                        break;
-                    case Statics.SERVICE_STOP:
-                        NotificationManager.remove();
-                        break;
-                    case Statics.SERVICE_NEXT:
-
-                        if (currentStationIndex < stations.size() - 1) {
-                            PlayerService.play(getBaseContext(), stations.get(++currentStationIndex));
-                        }
-
-                        break;
-                    case Statics.SERVICE_PREV:
-
-                        if (currentStationIndex > 0) {
-                            PlayerService.play(getBaseContext(), stations.get(--currentStationIndex));
-                        }
-
-                        break;
-
                     case Statics.DATABASE_READY:
 
                         if (isFav) {

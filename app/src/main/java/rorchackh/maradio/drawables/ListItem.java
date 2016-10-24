@@ -30,8 +30,7 @@ public class ListItem extends ImageView {
         if (station != null) {
 
             String image = station.getImageLink();
-            Log.i(Statics.debug, image);
-            Log.i(Statics.debug, this.toString());
+
             if (image == null || image.equals("")) {
                 Log.e(Statics.debug, String.format("Image URL for  %s not found", station.toString()));
                 this.setBackgroundResource(R.drawable.none);

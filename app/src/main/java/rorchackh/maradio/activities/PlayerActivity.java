@@ -7,7 +7,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -24,58 +24,46 @@ import rorchackh.maradio.R;
 import rorchackh.maradio.libraries.Globals;
 import rorchackh.maradio.libraries.Statics;
 import rorchackh.maradio.models.Station;
-import rorchackh.maradio.receivers.StationManagerReceiver;
-import rorchackh.maradio.services.NotificationManager;
 import rorchackh.maradio.services.PlayerService;
 
 public class PlayerActivity extends BaseActivity implements GestureDetector.OnGestureListener {
     private GestureDetector gestureDetector;
 
     private Station currentStation;
-    private int currentStationIndex;
     private boolean isLightTheme;
 
     private TextView UITitle;
     private TextView UISubTitle;
     private ImageView UIImg;
 
-    private Button prevButton;
-    private Button nextButton;
     private Button playButton;
     private ProgressBar loader;
+
+    private BroadcastReceiver uiBroadCastReceiver;
+    private LocalBroadcastManager broadCastManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
 
         currentStation = intent.getParcelableExtra(Statics.station);
-        boolean isFav = intent.getBooleanExtra(Statics.isFav, false);
+        Globals.stationList = stations = intent.getParcelableArrayListExtra(Statics.stations);
 
-        if (currentStation == null) {
-            currentStation = Globals.currentStation;
-        }
-
-        super.onCreate(savedInstanceState, isFav);
+        super.onCreate(savedInstanceState, intent.getBooleanExtra(Statics.isFav, false));
         setContentView(R.layout.content_player);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         isLightTheme = sharedPreferences.getBoolean(getString(R.string.pref_key_light), false);
         gestureDetector = new GestureDetector(this, this);
 
-        stations = intent.getParcelableArrayListExtra(Statics.stations);
-        if (stations == null) {
-            stations = isFav ? StationManagerReceiver.getFavs(this) : StationManagerReceiver.getAll(this);
-        }
-
-        currentStationIndex = stations.indexOf(currentStation);
-
         setUIElements();
         adjustImageHeight();
         setEvents();
 
-        receiver = createBroadcastReceiver();
-
         playStation();
+
+        uiBroadCastReceiver = createUIBroadcastReceiver();
+        broadCastManager = LocalBroadcastManager.getInstance(this);
     }
 
     private void setEvents() {
@@ -95,8 +83,6 @@ public class PlayerActivity extends BaseActivity implements GestureDetector.OnGe
         UITitle = (TextView) findViewById(R.id.title_text);
         UISubTitle = (TextView) findViewById(R.id.subtitle_text);
         UIImg = (ImageView) findViewById(R.id.thumbnail_image);
-        prevButton = (Button) findViewById(R.id.prevButton);
-        nextButton = (Button) findViewById(R.id.nextButton);
         playButton = (Button) findViewById(R.id.playButton);
         loader = (ProgressBar) findViewById(R.id.loader);
     }
@@ -115,8 +101,7 @@ public class PlayerActivity extends BaseActivity implements GestureDetector.OnGe
         });
     }
 
-    @NonNull
-    protected BroadcastReceiver createBroadcastReceiver() {
+    private BroadcastReceiver createUIBroadcastReceiver() {
         return new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -132,15 +117,14 @@ public class PlayerActivity extends BaseActivity implements GestureDetector.OnGe
                 String s = intent.getStringExtra(Statics.SERVICE_MESSAGE);
                 Log.d(Statics.debug, "The player activity receives the message: " + s);
 
-                boolean hasPrev = currentStationIndex > 0;
-                boolean hasNext = currentStationIndex < stations.size() - 1;
+                currentStation = Globals.currentStation;
+                applyUI();
 
                 switch (s) {
                     case Statics.SERVICE_PREPARE:
                         loader.setVisibility(View.VISIBLE);
                         playButton.setVisibility(View.GONE);
 
-                        NotificationManager.show(getBaseContext(), currentStation, s, hasNext, hasPrev);
                         break;
 
                     case Statics.SERVICE_PLAY:
@@ -148,7 +132,6 @@ public class PlayerActivity extends BaseActivity implements GestureDetector.OnGe
                         playButton.setVisibility(View.VISIBLE);
                         playButton.setBackgroundResource(pause);
 
-                        NotificationManager.show(getBaseContext(), currentStation, s, hasNext, hasPrev);
                         break;
 
                     case Statics.SERVICE_PAUSE:
@@ -156,7 +139,6 @@ public class PlayerActivity extends BaseActivity implements GestureDetector.OnGe
                         playButton.setVisibility(View.VISIBLE);
                         playButton.setBackgroundResource(play);
 
-                        NotificationManager.show(getBaseContext(), currentStation, s, hasNext, hasPrev);
                         break;
 
                     case Statics.SERVICE_STOP:
@@ -164,14 +146,6 @@ public class PlayerActivity extends BaseActivity implements GestureDetector.OnGe
                         playButton.setVisibility(View.VISIBLE);
                         playButton.setBackgroundResource(play);
 
-                        NotificationManager.remove();
-                        break;
-
-                    case Statics.SERVICE_NEXT:
-                        playNext(null);
-                        break;
-                    case Statics.SERVICE_PREV:
-                        playPrev(null);
                         break;
                 }
             }
@@ -179,6 +153,8 @@ public class PlayerActivity extends BaseActivity implements GestureDetector.OnGe
     }
 
     private void applyUI() {
+        loader.setVisibility(View.GONE);
+        playButton.setVisibility(View.VISIBLE);
 
         UITitle.setText(currentStation.getTitle());
         UISubTitle.setText(currentStation.getSubtitle());
@@ -191,9 +167,6 @@ public class PlayerActivity extends BaseActivity implements GestureDetector.OnGe
             Globals.imageLoader.displayImage(image, UIImg);
         }
 
-        prevButton.setEnabled(currentStationIndex > 0);
-        nextButton.setEnabled(currentStationIndex < stations.size() - 1);
-
         int pause = R.drawable.ic_pause_large_dark;
         int play = R.drawable.ic_play_large_dark;
 
@@ -203,28 +176,16 @@ public class PlayerActivity extends BaseActivity implements GestureDetector.OnGe
         }
 
         playButton.setBackgroundResource(Globals.mediaPlayer.isPlaying() ? pause : play);
+        playButton.setVisibility(View.VISIBLE);
+        loader.setVisibility(View.GONE);
     }
 
     public void playNext(View v) {
-        try {
-            currentStation = stations.get(++currentStationIndex);
-
-            applyUI();
-            playStation();
-        } catch (Exception ex) {
-            FirebaseCrash.report(ex);
-        }
+        PlayerService.seek(this, Statics.SERVICE_NEXT);
     }
 
     public void playPrev(View v) {
-        try {
-            currentStation = stations.get(--currentStationIndex);
-
-            applyUI();
-            playStation();
-        } catch (Exception ex) {
-            FirebaseCrash.report(ex);
-        }
+        PlayerService.seek(this, Statics.SERVICE_PREV);
     }
 
     private void playStation() {
@@ -232,42 +193,27 @@ public class PlayerActivity extends BaseActivity implements GestureDetector.OnGe
             return;
         }
 
-        PlayerService.play(this, currentStation);
+        Globals.currentStation = currentStation;
+        PlayerService.play(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        currentStation = Globals.currentStation;
         applyUI();
+
+        broadCastManager.registerReceiver(
+            uiBroadCastReceiver,
+            new IntentFilter(Statics.SERVICE_MESSAGE)
+        );
     }
 
     @Override
-    public void onStop() {
-        Log.e(Statics.debug, "Player unregisterReceiver");
-        notificationBroadCaster.unregisterReceiver(receiver);
-
-        Log.e(Statics.debug, "Base registerReceiver");
-        notificationBroadCaster.registerReceiver(
-            super.receiver,
-            new IntentFilter(Statics.SERVICE_MESSAGE)
-        );
-
+    protected void onStop () {
+        broadCastManager.unregisterReceiver(uiBroadCastReceiver);
         super.onStop();
-    }
-
-    public void onStart() {
-        // Todo: This is not perfect. It is still caught twice
-        Log.e(Statics.debug, "Base unregisterReceiver");
-        Log.e(Statics.debug, "Player registerReceiver");
-
-        notificationBroadCaster.unregisterReceiver(super.receiver);
-        notificationBroadCaster.unregisterReceiver(receiver);
-        notificationBroadCaster.registerReceiver(
-                receiver,
-                new IntentFilter(Statics.SERVICE_MESSAGE)
-        );
-
-        super.onStart();
     }
 
     @Override

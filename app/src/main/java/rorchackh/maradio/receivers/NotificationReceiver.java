@@ -1,47 +1,41 @@
 package rorchackh.maradio.receivers;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 import rorchackh.maradio.libraries.Statics;
-import rorchackh.maradio.models.Station;
 import rorchackh.maradio.services.PlayerService;
 
-// Todo: this event handler only works from the context of the app. Fix this.
-// Todo: This apply to all receivers not just this one.
-public class NotificationReceiver extends BroadcastReceiver {
-
-    public NotificationReceiver() {
-        super();
-    }
+public class NotificationReceiver extends android.content.BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        if (intent == null) {
-            return;
+        String action = intent.getAction();
+        String option = intent.getStringExtra(Statics.SERVICE_MESSAGE);
+
+        if (action.equals(Statics.SERVICE_MESSAGE)) {
+
+            switch (option) {
+                case Statics.SERVICE_PAUSE:
+                case Statics.SERVICE_STOP:
+                    PlayerService.stop(context, option);
+                    break;
+
+                case Statics.SERVICE_NEXT:
+                case Statics.SERVICE_PREV:
+                    PlayerService.seek(context, option);
+                    break;
+
+                case Statics.SERVICE_PLAY:
+                    PlayerService.play(context);
+                    break;
+            }
+
+            if (isOrderedBroadcast()) {
+                abortBroadcast();
+            }
         }
 
-        String action = intent.getStringExtra(Statics.SERVICE_MESSAGE);
-        Station station = intent.getParcelableExtra(Statics.station);
-
-        Log.d(Statics.debug, "Received action from notification: " + action);
-        switch (action) {
-            case Statics.SERVICE_STOP:
-            case Statics.SERVICE_PAUSE:
-                PlayerService.stop(context, action);
-                break;
-            case Statics.SERVICE_PLAY:
-                PlayerService.play(context, station);
-                break;
-
-            case Statics.SERVICE_PREV:
-            case Statics.SERVICE_NEXT:
-                PlayerService.seek(context, action);
-                break;
-        }
     }
 }

@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -17,11 +16,10 @@ import rorchackh.maradio.R;
 import rorchackh.maradio.activities.PlayerActivity;
 import rorchackh.maradio.libraries.Globals;
 import rorchackh.maradio.libraries.Statics;
-import rorchackh.maradio.models.Station;
 
 public class NotificationManager {
 
-    public static void show(Context context, Station station, String status, boolean hasNext, boolean hasPrev) {
+    static void show(Context context, String status) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
 
         Intent intent = new Intent(context, PlayerActivity.class);
@@ -41,8 +39,8 @@ public class NotificationManager {
 
         Notification notification = builder.build();
 
-        applyUI(context, contentView, expandedView, station, status);
-        applyEvents(context, station, contentView, expandedView, hasNext, hasPrev, status);
+        applyUI(contentView, expandedView, status);
+        applyEvents(context, contentView, expandedView, status);
 
         if (Globals.notificationManager == null) {
             Globals.notificationManager = (android.app.NotificationManager) context.getSystemService(Service.NOTIFICATION_SERVICE);
@@ -51,27 +49,28 @@ public class NotificationManager {
         Globals.notificationManager.notify(Statics.notificationId, notification);
     }
 
-    public static void remove() {
+    static void remove() {
         if (Globals.notificationManager != null) {
             Globals.notificationManager.cancel(Statics.notificationId);
         }
     }
 
-    private static void applyEvents(Context context, Station station, RemoteViews contentView, RemoteViews expandedViews, boolean hasNext, boolean hasPrev, String status) {
-        int broadCastIds = 0;
+    private static void applyEvents(Context context, RemoteViews contentView, RemoteViews expandedViews, String status) {
 
         Intent stopIntent = new Intent(Statics.SERVICE_MESSAGE);
         stopIntent.putExtra(Statics.SERVICE_MESSAGE, Statics.SERVICE_STOP);
-        PendingIntent stopPendingIntent = PendingIntent.getBroadcast(context, broadCastIds++, stopIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent stopPendingIntent = PendingIntent.getBroadcast(context, 0, stopIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         expandedViews.setOnClickPendingIntent(R.id.stop, stopPendingIntent);
         contentView.setOnClickPendingIntent(R.id.stop, stopPendingIntent);
 
         Intent nextIntent = new Intent(Statics.SERVICE_MESSAGE);
         nextIntent.putExtra(Statics.SERVICE_MESSAGE, Statics.SERVICE_NEXT);
-        PendingIntent nextPendingIntent = PendingIntent.getBroadcast(context, broadCastIds++, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent nextPendingIntent = PendingIntent.getBroadcast(context, 1, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        if (hasNext) {
+        int index = Globals.stationList.indexOf(Globals.currentStation);
+
+        if (index < Globals.stationList.size() - 1) {
             expandedViews.setOnClickPendingIntent(R.id.next, nextPendingIntent);
         } else {
             expandedViews.setOnClickPendingIntent(R.id.next, null);
@@ -80,8 +79,8 @@ public class NotificationManager {
 
         Intent prevIntent = new Intent(Statics.SERVICE_MESSAGE);
         prevIntent.putExtra(Statics.SERVICE_MESSAGE, Statics.SERVICE_PREV);
-        PendingIntent prevPendingIntent = PendingIntent.getBroadcast(context, broadCastIds++, prevIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        if (hasPrev) {
+        PendingIntent prevPendingIntent = PendingIntent.getBroadcast(context, 2, prevIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        if (index > 0) {
             expandedViews.setOnClickPendingIntent(R.id.prev, prevPendingIntent);
         } else {
             expandedViews.setOnClickPendingIntent(R.id.prev, null);
@@ -102,17 +101,16 @@ public class NotificationManager {
         }
 
         pauseIntent.putExtra(Statics.SERVICE_MESSAGE, status);
-        pauseIntent.putExtra(Statics.station, station);
-        PendingIntent pausePendingIntent = PendingIntent.getBroadcast(context, broadCastIds++, pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        pauseIntent.putExtra(Statics.station, Globals.currentStation);
+        PendingIntent pausePendingIntent = PendingIntent.getBroadcast(context, 3, pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         expandedViews.setOnClickPendingIntent(R.id.toggle_container, pausePendingIntent);
     }
 
-    private static void applyUI(Context context, RemoteViews contentView, RemoteViews expandedViews, Station station, String status) {
-         contentView.setTextViewText(R.id.notification_title, station.toString());
+    private static void applyUI(RemoteViews contentView, RemoteViews expandedViews, String status) {
+         contentView.setTextViewText(R.id.notification_title, Globals.currentStation.toString());
 
-        String url = station.getImageLink();
-        Log.i(Statics.debug, String.format("URL in the notification is %s", url));
+        String url = Globals.currentStation.getImageLink();
 
         contentView.setImageViewResource(R.id.notification_image_small, R.drawable.none);
         expandedViews.setImageViewResource(R.id.notification_image_big, R.drawable.none);
@@ -130,8 +128,8 @@ public class NotificationManager {
             }
         }
 
-        expandedViews.setTextViewText(R.id.title, station.getTitle());
-        expandedViews.setTextViewText(R.id.subtitle, station.getSubtitle());
+        expandedViews.setTextViewText(R.id.title, Globals.currentStation.getTitle());
+        expandedViews.setTextViewText(R.id.subtitle, Globals.currentStation.getSubtitle());
 
         switch (status){
             case Statics.SERVICE_PAUSE:

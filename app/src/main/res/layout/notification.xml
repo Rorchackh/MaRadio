@@ -34,13 +34,13 @@
         tools:ignore="RelativeOverlap" />
 
     <FrameLayout
-        android:id="@+id/stop"
         android:layout_width="@dimen/notification_small_height"
         android:layout_height="@dimen/notification_small_height"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true">
 
         <Button
+            android:id="@+id/stop"
             android:layout_width="@dimen/notification_icon_dimensions"
             android:layout_height="@dimen/notification_icon_dimensions"
             android:background="@drawable/ic_stop_dark"

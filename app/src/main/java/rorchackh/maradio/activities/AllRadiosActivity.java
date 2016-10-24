@@ -1,6 +1,5 @@
 package rorchackh.maradio.activities;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -11,7 +10,6 @@ import rorchackh.maradio.R;
 
 public class AllRadiosActivity extends ListingActivity {
 
-    @SuppressLint("MissingSuperCall")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState, false);
