@@ -2,7 +2,6 @@ package rorchackh.maradio.libraries;
 
 import android.app.NotificationManager;
 import android.media.MediaPlayer;
-
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;

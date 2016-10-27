@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
+    compileSdkVersion 25
     buildToolsVersion '24.0.0'
     defaultConfig {
         applicationId "rorchackh.maradio"
@@ -37,9 +37,9 @@ android {
 }
 
 dependencies {
-    androidTestCompile 'com.android.support:support-annotations:24.0.0'
+    androidTestCompile 'com.android.support:support-annotations:25.0.0'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
-    androidTestCompile ('com.android.support.test.espresso:espresso-contrib:2.2.2') {
+    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2.2') {
         exclude group: 'com.android.support', module: 'appcompat-v7'
         exclude group: 'com.android.support', module: 'design'
         exclude module: 'support-annotations'
@@ -47,17 +47,18 @@ dependencies {
         exclude module: 'support-v13'
         exclude module: 'recyclerview-v7'
     }
-
     compile fileTree(include: ['*.jar'], dir: 'libs')
-
     compile 'com.google.firebase:firebase-core:9.2.1'
     compile 'com.google.firebase:firebase-crash:9.2.1'
     compile 'com.google.firebase:firebase-database:9.2.1'
-
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-    compile 'com.android.support:appcompat-v7:24.0.0'
-    compile 'com.android.support:design:24.0.0'
+    compile 'com.android.support:appcompat-v7:25.0.0'
+    compile 'com.android.support:design:25.0.0'
     compile 'org.apache.directory.studio:org.apache.commons.io:2.4'
+
+    // Dependencies for Google Cast and Google Wear
+    compile 'com.android.support:mediarouter-v7:25.0.0'
+    compile 'com.google.android.gms:play-services:9.2.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

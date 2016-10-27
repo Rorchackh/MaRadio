@@ -37,7 +37,7 @@ public class HeadsetReceiver extends android.content.BroadcastReceiver {
             }
             switch (event.getKeyCode()) {
                 case KeyEvent.KEYCODE_MEDIA_PLAY:
-                    PlayerService.play(context);
+                    PlayerService.play(context, false);
                     break;
                 case KeyEvent.KEYCODE_MEDIA_STOP:
                     PlayerService.stop(context, Statics.SERVICE_STOP);
@@ -48,7 +48,7 @@ public class HeadsetReceiver extends android.content.BroadcastReceiver {
                     if (Globals.mediaPlayer.isPlaying()) {
                         PlayerService.stop(context, Statics.SERVICE_PAUSE);
                     } else {
-                        PlayerService.play(context);
+                        PlayerService.play(context, false);
                     }
                     break;
                 case KeyEvent.KEYCODE_MEDIA_PAUSE:

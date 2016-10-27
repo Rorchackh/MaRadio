@@ -28,7 +28,7 @@ public class NotificationReceiver extends android.content.BroadcastReceiver {
                     break;
 
                 case Statics.SERVICE_PLAY:
-                    PlayerService.play(context);
+                    PlayerService.play(context, false);
                     break;
             }
 

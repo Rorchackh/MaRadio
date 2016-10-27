@@ -87,6 +87,11 @@
             android:name="rorchackh.maradio.services.PlayerService"
             android:exported="false" />
 
+        <meta-data
+            android:name=
+                "com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"
+            android:value="rorchackh.maradio.cast.CastOptionsProvider" />
+
     </application>
 
 </manifest>

@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
@@ -14,6 +16,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.cast.framework.CastButtonFactory;
+import com.google.android.gms.cast.framework.CastContext;
+import com.google.android.gms.cast.framework.CastSession;
+import com.google.android.gms.cast.framework.SessionManager;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -22,6 +28,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import java.util.ArrayList;
 
 import rorchackh.maradio.R;
+import rorchackh.maradio.cast.SessionManagerListenerImpl;
 import rorchackh.maradio.libraries.Globals;
 import rorchackh.maradio.models.Station;
 import rorchackh.maradio.receivers.HeadsetReceiver;
@@ -34,8 +41,18 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     protected LocalBroadcastManager broadCastManager;
     protected boolean isFav;
 
+    private SessionManager mSessionManager;
+    private SessionManagerListenerImpl mSessionManagerListener;
+
+    public static String deviceID = null;
+
     protected void onCreate(Bundle savedInstanceState, boolean isFav) {
         super.onCreate(savedInstanceState);
+
+        if (deviceID == null) {
+            // Todo: use firebase's instance id instead.
+            deviceID = Settings.Secure.getString(getBaseContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+        }
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isLightTheme = sharedPreferences.getBoolean(getString(R.string.pref_key_light), false);
@@ -70,11 +87,26 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         }
 
         broadCastManager = LocalBroadcastManager.getInstance(this);
+
+        mSessionManager = CastContext.getSharedInstance(this).getSessionManager();
+        mSessionManagerListener = new SessionManagerListenerImpl(this, mSessionManager);
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        mSessionManager.removeSessionManagerListener(mSessionManagerListener);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSessionManager.addSessionManagerListener(mSessionManagerListener);
+    }
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
+        CastButtonFactory.setUpMediaRouteButton(getApplicationContext(), menu, R.id.action_cast);
         return true;
     }
 
@@ -95,7 +127,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
         switch (id) {

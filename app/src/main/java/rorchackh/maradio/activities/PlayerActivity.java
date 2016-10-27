@@ -73,7 +73,7 @@ public class PlayerActivity extends BaseActivity implements GestureDetector.OnGe
                 if (Globals.mediaPlayer.isPlaying()) {
                     PlayerService.stop(PlayerActivity.this, Statics.SERVICE_PAUSE);
                 } else {
-                    playStation();
+                    PlayerService.play(PlayerActivity.this, false);
                 }
             }
         });
@@ -189,12 +189,13 @@ public class PlayerActivity extends BaseActivity implements GestureDetector.OnGe
     }
 
     private void playStation() {
+
         if (Globals.mediaPlayer.isPlaying() && currentStation.equals(Globals.currentStation)) {
             return;
         }
 
         Globals.currentStation = currentStation;
-        PlayerService.play(this);
+        PlayerService.play(this, false);
     }
 
     @Override
@@ -262,5 +263,4 @@ public class PlayerActivity extends BaseActivity implements GestureDetector.OnGe
     public boolean onTouchEvent(MotionEvent event) {
         return gestureDetector.onTouchEvent(event);
     }
-
 }

@@ -20,7 +20,7 @@
             android:id="@+id/thumbnail_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/none"
+            android:src="@drawable/none"
             android:contentDescription="@string/notif_default_title"
             android:adjustViewBounds="false"
             android:focusable="false"

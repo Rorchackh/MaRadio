@@ -27,9 +27,12 @@ public class StationManagerReceiver {
     public static void init(@Nullable Context context) {
         if (stations.size() == 0) {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
+
             DatabaseReference stationRef = database.getReference(Statics.stations);
+            DatabaseReference favorChange = database.getReference(Statics.favorites);
 
             stationRef.addValueEventListener(new StationsDatabaseListener(context));
+            // favorChange.addValueEventListener(new StationsDatabaseListener(context));
         }
     }
 
@@ -85,9 +88,6 @@ public class StationManagerReceiver {
                     stations.add(index++, s);
                 }
             }
-
-            Log.i(Statics.debug, String.format("Number of stations %d", list.size()));
-            Log.i(Statics.debug, String.format("Number of active stations %d", stations.size()));
 
             LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(context);
 

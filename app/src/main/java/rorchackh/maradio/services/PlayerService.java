@@ -10,6 +10,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.google.android.gms.cast.framework.CastContext;
+import com.google.android.gms.cast.framework.CastSession;
+import com.google.android.gms.cast.framework.SessionManager;
 import com.google.firebase.crash.FirebaseCrash;
 
 import rorchackh.maradio.libraries.Globals;
@@ -69,15 +72,31 @@ public class PlayerService extends Service implements AudioManager.OnAudioFocusC
         broadcaster.sendBroadcast(intent);
     }
 
-    public static void play(Context context) {
-        boolean isPaused = !Globals.mediaPlayer.isPlaying() && Globals.mediaPlayer.getCurrentPosition() > 1;
-        if (isPaused) {
-            Globals.mediaPlayer.start();
+    public static void play(Context context, boolean isSeeking) {
+        boolean isPaused = !Globals.mediaPlayer.isPlaying() && Globals.mediaPlayer.getCurrentPosition() > 1000;
+
+        SessionManager mSessionManager = CastContext.getSharedInstance(context).getSessionManager();
+        CastSession session = mSessionManager.getCurrentCastSession();
+
+        if (isPaused && !isSeeking) {
+
+            if (session == null) {
+                Globals.mediaPlayer.start();
+                NotificationManager.show(context, Statics.SERVICE_PLAY);
+            } else {
+                Log.d(Statics.debug, "trying to resume service while session is on");
+            }
+
             broadCastMessage(context, Statics.SERVICE_PLAY);
-            NotificationManager.show(context, Statics.SERVICE_PLAY);
+
         } else {
-            Intent playerService = new Intent(context, PlayerService.class);
-            context.startService(playerService);
+
+            if (session == null) {
+                Intent playerService = new Intent(context, PlayerService.class);
+                context.startService(playerService);
+            } else {
+                Log.d(Statics.debug, "trying to start service while session is on");
+            }
         }
     }
 
@@ -116,15 +135,18 @@ public class PlayerService extends Service implements AudioManager.OnAudioFocusC
                     break;
             }
 
-            play(context);
+            play(context, true);
 
-        } catch (IndexOutOfBoundsException ex) {
+        } catch (IndexOutOfBoundsException ignored) {
         }
     }
 
     @Override
     public void onTaskRemoved(Intent rootIntent) {
+
         NotificationManager.remove();
+        Globals.mediaPlayer.release();
+
         super.onTaskRemoved(rootIntent);
     }
 
