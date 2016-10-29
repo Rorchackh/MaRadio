@@ -13,6 +13,7 @@ import android.util.Log;
 import com.google.android.gms.cast.framework.CastContext;
 import com.google.android.gms.cast.framework.CastSession;
 import com.google.android.gms.cast.framework.SessionManager;
+import com.google.android.gms.cast.framework.media.RemoteMediaClient;
 import com.google.firebase.crash.FirebaseCrash;
 
 import rorchackh.maradio.libraries.Globals;
@@ -34,8 +35,7 @@ public class PlayerService extends Service implements AudioManager.OnAudioFocusC
                 Globals.mediaPlayer.stop();
                 Globals.mediaPlayer.reset();
 
-                broadCastMessage(this, Statics.SERVICE_PREPARE);
-                NotificationManager.show(this, Statics.SERVICE_PREPARE);
+                broadCastMessage(this, Statics.SERVICE_PREPARE, true);
 
                 Globals.mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 Globals.mediaPlayer.setDataSource(Globals.currentStation.getLink());
@@ -44,8 +44,7 @@ public class PlayerService extends Service implements AudioManager.OnAudioFocusC
                 Globals.mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                     @Override
                     public void onPrepared(MediaPlayer player) {
-                        broadCastMessage(PlayerService.this, Statics.SERVICE_PLAY);
-                        NotificationManager.show(PlayerService.this, Statics.SERVICE_PLAY);
+                        broadCastMessage(PlayerService.this, Statics.SERVICE_PLAY, true);
                         player.start();
                     }
                 });
@@ -61,7 +60,17 @@ public class PlayerService extends Service implements AudioManager.OnAudioFocusC
         }
     }
 
-    private static void broadCastMessage(Context context, String msg) {
+    public static void broadCastMessage(Context context, String msg, boolean inludeNotification) {
+        if (inludeNotification) {
+            switch (msg) {
+                case Statics.SERVICE_STOP:
+                    NotificationService.remove();
+                    break;
+                default:
+                    NotificationService.show(context, msg);
+            }
+        }
+
         LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(context);
 
         Intent intent = new Intent(Statics.SERVICE_MESSAGE);
@@ -73,51 +82,61 @@ public class PlayerService extends Service implements AudioManager.OnAudioFocusC
     }
 
     public static void play(Context context, boolean isSeeking) {
-        boolean isPaused = !Globals.mediaPlayer.isPlaying() && Globals.mediaPlayer.getCurrentPosition() > 1000;
 
-        SessionManager mSessionManager = CastContext.getSharedInstance(context).getSessionManager();
-        CastSession session = mSessionManager.getCurrentCastSession();
-
-        if (isPaused && !isSeeking) {
-
-            if (session == null) {
+        CastSession session = CastContext.getSharedInstance(context).getSessionManager().getCurrentCastSession();
+        if (session == null) {
+            boolean isPaused = !Globals.mediaPlayer.isPlaying() && Globals.mediaPlayer.getCurrentPosition() > 1000;
+            if (isPaused && !isSeeking) {
                 Globals.mediaPlayer.start();
-                NotificationManager.show(context, Statics.SERVICE_PLAY);
+                broadCastMessage(context, Statics.SERVICE_PLAY, true);
             } else {
-                Log.d(Statics.debug, "trying to resume service while session is on");
-            }
-
-            broadCastMessage(context, Statics.SERVICE_PLAY);
-
-        } else {
-
-            if (session == null) {
                 Intent playerService = new Intent(context, PlayerService.class);
                 context.startService(playerService);
-            } else {
-                Log.d(Statics.debug, "trying to start service while session is on");
             }
+        } else {
+            Globals.remoteMediaClient = session.getRemoteMediaClient();
+            boolean isPlaying = Globals.remoteMediaClient.isPlaying();
+
+            if (!isPlaying && !isSeeking) {
+                Globals.remoteMediaClient.play();
+                broadCastMessage(context, Statics.SERVICE_PLAY, true);
+            } else {
+                CastService sessionManagerImpl = new CastService(context);
+                sessionManagerImpl.play();
+            }
+
         }
     }
 
     public static void stop(Context context, String action) {
-        broadCastMessage(context, action);
 
-        switch (action) {
-            case Statics.SERVICE_STOP:
+        CastSession session = CastContext.getSharedInstance(context).getSessionManager().getCurrentCastSession();
+        if (session == null) {
+            switch (action) {
+                case Statics.SERVICE_STOP:
+                    Globals.mediaPlayer.stop();
+                    Globals.mediaPlayer.reset();
 
-                Globals.mediaPlayer.stop();
-                Globals.mediaPlayer.reset();
+                    break;
 
-                NotificationManager.remove();
-                break;
+                case Statics.SERVICE_PAUSE:
+                    Globals.mediaPlayer.pause();
+                    break;
+            }
+        } else {
 
-            case Statics.SERVICE_PAUSE:
-
-                Globals.mediaPlayer.pause();
-                NotificationManager.show(context, action);
-                break;
+            RemoteMediaClient remoteMediaClient = session.getRemoteMediaClient();
+            switch (action) {
+                case Statics.SERVICE_STOP:
+                    remoteMediaClient.stop();
+                    break;
+                case Statics.SERVICE_PAUSE:
+                    remoteMediaClient.pause();
+                    break;
+            }
         }
+
+        broadCastMessage(context, action, session == null);
     }
 
     public static void seek(Context context, String action) {
@@ -144,7 +163,7 @@ public class PlayerService extends Service implements AudioManager.OnAudioFocusC
     @Override
     public void onTaskRemoved(Intent rootIntent) {
 
-        NotificationManager.remove();
+        NotificationService.remove();
         Globals.mediaPlayer.release();
 
         super.onTaskRemoved(rootIntent);

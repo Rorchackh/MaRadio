@@ -70,7 +70,8 @@ public class PlayerActivity extends BaseActivity implements GestureDetector.OnGe
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Globals.mediaPlayer.isPlaying()) {
+
+                if (Globals.mediaPlayer.isPlaying() || Globals.remoteMediaClient.isPlaying()) {
                     PlayerService.stop(PlayerActivity.this, Statics.SERVICE_PAUSE);
                 } else {
                     PlayerService.play(PlayerActivity.this, false);

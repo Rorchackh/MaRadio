@@ -17,7 +17,7 @@ import rorchackh.maradio.activities.PlayerActivity;
 import rorchackh.maradio.libraries.Globals;
 import rorchackh.maradio.libraries.Statics;
 
-public class NotificationManager {
+public class NotificationService {
 
     static void show(Context context, String status) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);

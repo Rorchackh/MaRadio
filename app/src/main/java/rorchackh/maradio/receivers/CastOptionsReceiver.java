@@ -1,4 +1,4 @@
-package rorchackh.maradio.cast;
+package rorchackh.maradio.receivers;
 
 import android.content.Context;
 
@@ -9,7 +9,7 @@ import com.google.android.gms.cast.framework.SessionProvider;
 
 import java.util.List;
 
-class CastOptionsProvider implements OptionsProvider {
+class CastOptionsReceiver implements OptionsProvider {
     @Override
     public CastOptions getCastOptions(Context appContext) {
         CastOptions castOptions = new CastOptions.Builder()

@@ -17,8 +17,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.android.gms.cast.framework.CastButtonFactory;
-import com.google.android.gms.cast.framework.CastContext;
-import com.google.android.gms.cast.framework.CastSession;
 import com.google.android.gms.cast.framework.SessionManager;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -28,11 +26,11 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import java.util.ArrayList;
 
 import rorchackh.maradio.R;
-import rorchackh.maradio.cast.SessionManagerListenerImpl;
 import rorchackh.maradio.libraries.Globals;
 import rorchackh.maradio.models.Station;
 import rorchackh.maradio.receivers.HeadsetReceiver;
 import rorchackh.maradio.receivers.StationManagerReceiver;
+import rorchackh.maradio.services.CastService;
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -42,7 +40,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     protected boolean isFav;
 
     private SessionManager mSessionManager;
-    private SessionManagerListenerImpl mSessionManagerListener;
+    private CastService mSessionManagerListener;
 
     public static String deviceID = null;
 
@@ -87,9 +85,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         }
 
         broadCastManager = LocalBroadcastManager.getInstance(this);
-
-        mSessionManager = CastContext.getSharedInstance(this).getSessionManager();
-        mSessionManagerListener = new SessionManagerListenerImpl(this, mSessionManager);
+        mSessionManagerListener = new CastService(this);
+        mSessionManager = mSessionManagerListener.getmSessionManager();
     }
 
     @Override
