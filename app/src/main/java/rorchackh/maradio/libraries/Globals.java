@@ -20,4 +20,12 @@ public class Globals {
 
     public static Station currentStation;
     public static ArrayList<Station> stationList;
+
+    public static boolean isPlaying() {
+        if (Globals.remoteMediaClient == null) {
+            return Globals.mediaPlayer.isPlaying();
+        }
+
+        return Globals.mediaPlayer.isPlaying() || Globals.remoteMediaClient.isPlaying();
+    }
 }

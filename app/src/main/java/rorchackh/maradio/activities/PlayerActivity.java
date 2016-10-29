@@ -71,7 +71,7 @@ public class PlayerActivity extends BaseActivity implements GestureDetector.OnGe
             @Override
             public void onClick(View v) {
 
-                if (Globals.mediaPlayer.isPlaying() || Globals.remoteMediaClient.isPlaying()) {
+                if (Globals.isPlaying()) {
                     PlayerService.stop(PlayerActivity.this, Statics.SERVICE_PAUSE);
                 } else {
                     PlayerService.play(PlayerActivity.this, false);
@@ -176,7 +176,7 @@ public class PlayerActivity extends BaseActivity implements GestureDetector.OnGe
             play = R.drawable.ic_play_large_light;
         }
 
-        playButton.setBackgroundResource(Globals.mediaPlayer.isPlaying() ? pause : play);
+        playButton.setBackgroundResource(Globals.isPlaying() ? pause : play);
         playButton.setVisibility(View.VISIBLE);
         loader.setVisibility(View.GONE);
     }
@@ -191,7 +191,7 @@ public class PlayerActivity extends BaseActivity implements GestureDetector.OnGe
 
     private void playStation() {
 
-        if (Globals.mediaPlayer.isPlaying() && currentStation.equals(Globals.currentStation)) {
+        if (Globals.isPlaying() && currentStation.equals(Globals.currentStation)) {
             return;
         }
 
