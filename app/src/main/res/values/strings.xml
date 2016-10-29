@@ -3,7 +3,7 @@
 
     <!-- App & Activity Name-->
     <string name="app_name">MaRadio</string>
-    <string name="tag_line">Listen to Morocco\'s Radios</string>
+    <string name="tag_line">Listen to your own radios</string>
 
     <!--Activity titles-->
     <string name="title_activity_preferences">Settings</string>

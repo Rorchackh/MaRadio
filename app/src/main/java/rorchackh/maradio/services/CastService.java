@@ -17,6 +17,9 @@ import com.google.android.gms.common.images.WebImage;
 import rorchackh.maradio.libraries.Globals;
 import rorchackh.maradio.libraries.Statics;
 
+
+//Todo:
+// Add support for Google cast mini player when app is in background
 public class CastService implements SessionManagerListener {
 
     private Context context;

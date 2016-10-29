@@ -7,7 +7,6 @@ import android.preference.PreferenceFragment;
 import rorchackh.maradio.R;
 import rorchackh.maradio.libraries.Statics;
 
-// Todo: Overwrite the back button here.
 public class PreferencesActivity extends BaseActivity  {
 
     @Override
