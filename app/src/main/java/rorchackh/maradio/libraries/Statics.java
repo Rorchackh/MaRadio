@@ -7,8 +7,6 @@ public class Statics {
     public static final String SETTINGS_LABEL = "settings";
     public static final String stations = "stations";
     public static final String station = "station";
-    public static final String favorites = "favorites";
-    public static final String isFav = "isFav";
 
     public static final String SERVICE_MESSAGE = "rorchackh.maradio.SERVICE_MESSAGE";
     public static final String DATABASE_MESSAGE = "rorchackh.maradio.DATABASE_MESSAGE";

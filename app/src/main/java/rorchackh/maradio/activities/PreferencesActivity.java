@@ -11,7 +11,7 @@ public class PreferencesActivity extends BaseActivity  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState, false);
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.content_preferences);
 
         PreferencesActivityFragment prefFragment = new PreferencesActivityFragment();

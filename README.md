@@ -16,16 +16,12 @@ Side Notes:
 ~~~~
 {
   "stations" : [ {
-    "active" : true,
-    "favorite": false,
     "id" : 0, // ids, not used yet. But keep them unique anyway
     "imageLink" : "http://imageshack.com/a/img924/6642/QrFnnu.jpg", 
     "link" : "http://hitradio-maroc.ice.infomaniak.ch/hitradio-maroc-128.mp3",
     "subtitle" : "",
     "title" : "Hit Radio"
   }, {
-    "active" : true,
-    "favorite": false,
     "id" : 1,
     "imageLink" : "http://imagizer.imageshack.us/a/img922/4797/MBdjcZ.jpg",
     "link" : "http://gold.ice.infomaniak.ch/gold-128.mp3",

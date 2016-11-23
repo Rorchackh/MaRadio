@@ -49,7 +49,7 @@ public class PlayerActivity extends BaseActivity implements GestureDetector.OnGe
         currentStation = intent.getParcelableExtra(Statics.station);
         Globals.stationList = stations = intent.getParcelableArrayListExtra(Statics.stations);
 
-        super.onCreate(savedInstanceState, intent.getBooleanExtra(Statics.isFav, false));
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.content_player);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);

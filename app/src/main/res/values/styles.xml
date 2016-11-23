@@ -20,8 +20,6 @@
         <item name="playLargeIcon">@drawable/ic_play_large_dark</item>
         <item name="pauseLargeIcon">@drawable/ic_pause_large_dark</item>
         <item name="allIcon">@drawable/ic_nav_all_dark</item>
-        <item name="favIcon">@drawable/ic_nav_fav_dark</item>
-        <item name="favIconLiked">@drawable/ic_nav_fav_red</item>
         <item name="shareIcon">@drawable/ic_nav_share_dark</item>
         <item name="recordIcon">@drawable/ic_record</item>
     </style>
@@ -51,8 +49,6 @@
         <item name="playLargeIcon">@drawable/ic_play_large_light</item>
         <item name="pauseLargeIcon">@drawable/ic_pause_large_light</item>
         <item name="allIcon">@drawable/ic_nav_all_light</item>
-        <item name="favIcon">@drawable/ic_nav_fav_light</item>
-        <item name="favIconLiked">@drawable/ic_nav_fav_red</item>
         <item name="shareIcon">@drawable/ic_nav_share_light</item>
         <item name="recordIcon">@drawable/ic_record</item>
 

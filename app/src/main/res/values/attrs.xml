@@ -18,8 +18,6 @@
     <attr name="playLargeIcon" format="reference" />
     <attr name="pauseLargeIcon" format="reference" />
     <attr name="allIcon" format="reference" />
-    <attr name="favIcon" format="reference" />
-    <attr name="favIconLiked" format="reference" />
     <attr name="shareIcon" format="reference" />
     <attr name="recordIcon" format="reference" />
 

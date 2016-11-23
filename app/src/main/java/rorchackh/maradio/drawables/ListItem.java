@@ -22,7 +22,7 @@ import rorchackh.maradio.models.Station;
 
 public class ListItem extends ImageView {
 
-    private ListItem(Context context, Station station, ArrayList<Station> stations, int side, boolean isFav) {
+    private ListItem(Context context, Station station, ArrayList<Station> stations, int side) {
         super(context);
 
         this.setLayoutParams(new TableLayout.LayoutParams(side, side, 1));
@@ -38,11 +38,11 @@ public class ListItem extends ImageView {
                 Globals.imageLoader.displayImage(image, this);
             }
 
-            this.setOnClickListener(new RowClickListener(station, stations, isFav));
+            this.setOnClickListener(new RowClickListener(station, stations));
         }
     }
 
-    public static void show(Context context, ArrayList<Station> stations, LinearLayout radioListingLayout, int numberOfColumns, boolean isFav) {
+    public static void show(Context context, ArrayList<Station> stations, LinearLayout radioListingLayout, int numberOfColumns) {
 
         LinearLayout r = new LinearLayout(context);
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
@@ -64,24 +64,22 @@ public class ListItem extends ImageView {
                 radioListingLayout.addView(r);
             }
 
-            r.addView(new ListItem(context, station, stations, height, isFav));
+            r.addView(new ListItem(context, station, stations, height));
 
             if (i == limit - 1) {
-                while (++i % numberOfColumns != 0) r.addView(new ListItem(context, null, stations, height, isFav));
+                while (++i % numberOfColumns != 0) r.addView(new ListItem(context, null, stations, height));
             }
         }
     }
 
     private class RowClickListener implements View.OnClickListener {
 
-        private boolean isFav;
         private Station currentStation;
         private ArrayList<Station> stations;
 
-        RowClickListener(Station station, ArrayList<Station> stations, boolean isFav) {
+        RowClickListener(Station station, ArrayList<Station> stations) {
             this.currentStation = station;
             this.stations = stations;
-            this.isFav = isFav;
         }
 
         @Override
@@ -92,7 +90,6 @@ public class ListItem extends ImageView {
             Intent intent = new Intent(context, PlayerActivity.class);
 
             intent.putExtra(Statics.station, currentStation);
-            intent.putExtra(Statics.isFav, isFav);
             intent.putParcelableArrayListExtra(Statics.stations, stations);
 
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

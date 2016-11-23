@@ -31,18 +31,13 @@ public class StationManagerTest extends InstrumentationTestCase {
 
     @Test
     public void testGetAll() throws Exception {
-        assertEquals(20, StationManagerReceiver.getAll(mContext).size());
+        assertEquals(20, StationManagerReceiver.getStations(mContext).size());
     }
 
     @Test
     public void testGetFirst() throws Exception {
-        Station first = new Station(0, "", "", "http://hitradio-maroc.ice.infomaniak.ch/hitradio-maroc-128.mp3", "", false, false);
+        Station first = new Station(0, "", "", "http://hitradio-maroc.ice.infomaniak.ch/hitradio-maroc-128.mp3", "");
         assertEquals(first, StationManagerReceiver.getFirst(mContext));
     }
 
-    @Test
-    public void testGetFavs() throws Exception {
-        // Todo: Fix this.
-        assertEquals(2, StationManagerReceiver.getFavs(mContext).size());
-    }
 }

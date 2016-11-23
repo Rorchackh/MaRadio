@@ -29,14 +29,12 @@ public class StationManagerReceiver {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
 
             DatabaseReference stationRef = database.getReference(Statics.stations);
-            DatabaseReference favorChange = database.getReference(Statics.favorites);
 
             stationRef.addValueEventListener(new StationsDatabaseListener(context));
-            // favorChange.addValueEventListener(new StationsDatabaseListener(context));
         }
     }
 
-    public static ArrayList<Station> getAll(@Nullable Context context) {
+    public static ArrayList<Station> getStations(@Nullable Context context) {
         init(context);
         return stations;
     }
@@ -44,22 +42,6 @@ public class StationManagerReceiver {
     public static Station getFirst(@Nullable Context context) {
         init(context);
         return stations.get(0);
-    }
-
-    public static ArrayList<Station> getFavs(@Nullable Context context) {
-        init(context);
-
-        ArrayList<Station> cloned = (ArrayList<Station>) stations.clone();
-
-        Iterator<Station> iterator = cloned.iterator();
-        while (iterator.hasNext()) {
-            Station s = iterator.next();
-            if (!s.isFavorite()) {
-                iterator.remove();
-            }
-        }
-
-        return cloned;
     }
 
     private static class StationsDatabaseListener implements ValueEventListener {
@@ -84,9 +66,7 @@ public class StationManagerReceiver {
                     continue;
                 }
 
-                if (s.isActive()) {
-                    stations.add(index++, s);
-                }
+                stations.add(index++, s);
             }
 
             LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(context);

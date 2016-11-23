@@ -8,7 +8,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
-import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.LinearLayout;
 
@@ -17,20 +19,36 @@ import rorchackh.maradio.drawables.ListItem;
 import rorchackh.maradio.libraries.Statics;
 import rorchackh.maradio.receivers.StationManagerReceiver;
 
-public class ListingActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class ListingActivity extends BaseActivity {
     private BroadcastReceiver dataBaseReceiver;
 
-    protected void onCreate(Bundle savedInstanceState, boolean isFav) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.layout);
+
         dataBaseReceiver = createBroadcastReceiver();
-        super.onCreate(savedInstanceState, isFav);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
     protected void onResume() {
         broadCastManager.registerReceiver(
-            dataBaseReceiver,
-            new IntentFilter(Statics.DATABASE_MESSAGE)
+                dataBaseReceiver,
+                new IntentFilter(Statics.DATABASE_MESSAGE)
         );
+
+        plotStations();
         super.onResume();
     }
 
@@ -49,7 +67,7 @@ public class ListingActivity extends BaseActivity implements NavigationView.OnNa
 
         if (stations != null && stations.size() > 0)     {
             radioListingLayout.removeAllViews();
-            ListItem.show(context, stations, radioListingLayout, numberOfColumns, isFav);
+            ListItem.show(context, stations, radioListingLayout, numberOfColumns);
         }
 
         return context;
@@ -65,17 +83,12 @@ public class ListingActivity extends BaseActivity implements NavigationView.OnNa
 
                 switch (s) {
                     case Statics.DATABASE_READY:
-
-                        if (isFav) {
-                            stations = StationManagerReceiver.getFavs(context);
-                        } else {
-                            stations = StationManagerReceiver.getAll(context);
-                        }
-
+                        stations = StationManagerReceiver.getStations(context);
                         plotStations();
                         break;
                 }
             }
         };
     }
+
 }

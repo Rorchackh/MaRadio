@@ -10,37 +10,23 @@ public class Station implements Parcelable {
     private String subtitle;
     private String link;
     private String imageLink;
-    private boolean favorite;
-
-    private boolean active;
 
     public Station() {
     }
 
-    public Station(int id, String title, String subtitle, String link, String imageLink, boolean favorite, boolean active) {
+    public Station(int id, String title, String subtitle, String link, String imageLink) {
         this.id = id;
         this.title = title;
         this.subtitle = subtitle;
         this.link = link;
         this.imageLink = imageLink;
-        this.favorite = favorite;
-        this.active = active;
     }
-
-    public boolean isActive() {
-        return active;
-    }
-
     public String getTitle() {
         return title.trim();
     }
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public void setFavorite(boolean favorite) {
-        this.favorite = favorite;
     }
 
     public String getSubtitle() {
@@ -53,10 +39,6 @@ public class Station implements Parcelable {
 
     public String getImageLink() {
         return imageLink;
-    }
-
-    public Boolean isFavorite() {
-        return favorite;
     }
 
     public String toString() {
@@ -88,7 +70,6 @@ public class Station implements Parcelable {
         dest.writeString(subtitle);
         dest.writeString(link);
         dest.writeString(imageLink);
-        dest.writeInt(favorite ? 1 : 0);
     }
 
     public static final Parcelable.Creator CREATOR
@@ -108,7 +89,6 @@ public class Station implements Parcelable {
         subtitle = in.readString();
         link = in.readString();
         imageLink = in.readString();
-        favorite = in.readInt() == 1;
     }
 
     public int getId() {

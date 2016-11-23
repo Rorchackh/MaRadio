@@ -3,19 +3,14 @@
 
     <group android:checkableBehavior="single" >
         <item
-            android:id="@+id/nav_all"
+            android:id="@+id/nav_my_stations"
             android:icon="@drawable/ic_nav_all_light"
-            android:title="@string/nav_all"
+            android:title="@string/nav_my_stations"
             android:enabled="false"
-            android:checkable="false" />
-        <item
-            android:id="@+id/nav_favorites"
-            android:icon="@drawable/ic_nav_fav_light"
-            android:title="@string/nav_favorites"
             android:checkable="false" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="@string/communicate">
         <menu>
             <item
                 android:id="@+id/nav_share"

@@ -15,10 +15,10 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 @RunWith(AndroidJUnit4.class)
-public class AllRadiosActivityTest {
+public class ListingActivityTest {
 
     @Rule
-    public ActivityTestRule<AllRadiosActivity> mActivityRule = new ActivityTestRule<>(AllRadiosActivity.class);
+    public ActivityTestRule<ListingActivity> mActivityRule = new ActivityTestRule<>(ListingActivity.class);
 
     @Test
     public void shouldBeAbleToLunchActivity() {

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 
 import rorchackh.maradio.libraries.Globals;
+import rorchackh.maradio.libraries.Helpers;
 import rorchackh.maradio.libraries.Statics;
 import rorchackh.maradio.services.PlayerService;
 
@@ -13,8 +14,12 @@ public class HeadsetReceiver extends android.content.BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
         String action = intent.getAction();
+
+        if (!Helpers.isAppRunning(context)) {
+            return;
+        }
+
         /**
          *
          * First this stops when the the headset is removed.

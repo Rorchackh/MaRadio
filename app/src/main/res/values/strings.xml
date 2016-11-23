@@ -7,15 +7,15 @@
 
     <!--Activity titles-->
     <string name="title_activity_preferences">Settings</string>
-    <string name="title_activity_favorites">Favorites</string>
-    <string name="title_activity_player">Playing...</string>
+    <string name="title_activity_player">Playing Station</string>
 
     <!--Navigation text-->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="nav_all">All Stations</string>
-    <string name="nav_favorites">Favorites</string>
+    <string name="nav_my_stations">My Stations</string>
+
+    <string name="communicate">Communicate</string>
     <string name="nav_share">Share</string>
 
     <!--Menu text-->

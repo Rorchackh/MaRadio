@@ -12,7 +12,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -35,16 +34,16 @@ import rorchackh.maradio.services.CastService;
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     protected ArrayList<Station> stations = null;
+
     protected FirebaseAnalytics mFirebaseAnalytics;
     protected LocalBroadcastManager broadCastManager;
-    protected boolean isFav;
 
     private SessionManager mSessionManager;
     private CastService mSessionManagerListener;
 
     public static String deviceID = null;
 
-    protected void onCreate(Bundle savedInstanceState, boolean isFav) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (deviceID == null) {
@@ -57,10 +56,10 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
         if (isLightTheme) {
             String classIO = this.getClass().toString();
-            setTheme(classIO.endsWith("AllRadiosActivity") ? R.style.MaRadioLightTheme_NoActionBar : R.style.MaRadioLightTheme);
+            setTheme(classIO.endsWith("ListingActivity") ? R.style.MaRadioLightTheme_NoActionBar : R.style.MaRadioLightTheme);
         }
 
-        stations = isFav ? StationManagerReceiver.getFavs(this) : StationManagerReceiver.getAll(this);
+        stations = StationManagerReceiver.getStations(this);
 
         ComponentName component = new ComponentName(this, HeadsetReceiver.class);
         AudioManager am = ((AudioManager) getSystemService(AUDIO_SERVICE));
@@ -130,11 +129,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.nav_all:
-                startActivity(new Intent(this, AllRadiosActivity.class));
-                break;
-            case R.id.nav_favorites:
-                startActivity(new Intent(this, FavRadiosActivity.class));
+            case R.id.nav_my_stations:
+                startActivity(new Intent(this, ListingActivity.class));
                 break;
             case R.id.nav_share:
 
