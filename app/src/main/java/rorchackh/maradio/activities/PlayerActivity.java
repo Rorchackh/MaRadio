@@ -47,7 +47,7 @@ public class PlayerActivity extends BaseActivity implements GestureDetector.OnGe
         Intent intent = getIntent();
 
         currentStation = intent.getParcelableExtra(Statics.station);
-        Globals.stationList = stations = intent.getParcelableArrayListExtra(Statics.stations);
+        stations = intent.getParcelableArrayListExtra(Statics.stations);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_player);

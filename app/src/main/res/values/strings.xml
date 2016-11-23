@@ -37,7 +37,7 @@
 
     <!--notifications text-->
     <string name="notif_default_title">Hit Radio</string>
-    <string name="notif_default_subtitle">Hit Radio</string>
+    <string name="notif_default_subtitle">100% Mgharba</string>
 
     <!--Additional Text-->
     <string name="loading_stations">Loading Stations...</string>

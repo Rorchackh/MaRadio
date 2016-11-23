@@ -23,6 +23,8 @@ public class NotificationService {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
 
         Intent intent = new Intent(context, PlayerActivity.class);
+        intent.putExtra(Statics.station, Globals.currentStation);
+        intent.putExtra(Statics.stations, Globals.stationList);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         builder.setContentIntent(PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
 
@@ -133,18 +135,23 @@ public class NotificationService {
 
         switch (status){
             case Statics.SERVICE_PAUSE:
-                expandedViews.setInt(R.id.toggle, "setBackgroundResource", R.drawable.ic_play_dark);
+                expandedViews.setInt(R.id.toggle_bg, "setBackgroundResource", R.drawable.ic_play_dark);
+
                 expandedViews.setInt(R.id.loader, "setVisibility", View.GONE);
                 expandedViews.setInt(R.id.toggle, "setVisibility", View.VISIBLE);
+                expandedViews.setInt(R.id.toggle_bg, "setVisibility", View.VISIBLE);
                 break;
             case Statics.SERVICE_PLAY:
-                expandedViews.setInt(R.id.toggle, "setBackgroundResource", R.drawable.ic_pause_dark);
+                expandedViews.setInt(R.id.toggle_bg, "setBackgroundResource", R.drawable.ic_pause_dark);
+
                 expandedViews.setInt(R.id.loader, "setVisibility", View.GONE);
                 expandedViews.setInt(R.id.toggle, "setVisibility", View.VISIBLE);
+                expandedViews.setInt(R.id.toggle_bg, "setVisibility", View.VISIBLE);
                 break;
             case Statics.SERVICE_PREPARE:
                 expandedViews.setInt(R.id.loader, "setVisibility", View.VISIBLE);
                 expandedViews.setInt(R.id.toggle, "setVisibility", View.GONE);
+                expandedViews.setInt(R.id.toggle_bg, "setVisibility", View.GONE);
                 break;
         }
     }

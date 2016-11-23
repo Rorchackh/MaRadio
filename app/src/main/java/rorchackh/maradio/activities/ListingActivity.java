@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 
 import rorchackh.maradio.R;
 import rorchackh.maradio.drawables.ListItem;
+import rorchackh.maradio.libraries.Globals;
 import rorchackh.maradio.libraries.Statics;
 import rorchackh.maradio.receivers.StationManagerReceiver;
 
@@ -83,7 +84,7 @@ public class ListingActivity extends BaseActivity {
 
                 switch (s) {
                     case Statics.DATABASE_READY:
-                        stations = StationManagerReceiver.getStations(context);
+                        Globals.stationList = stations = StationManagerReceiver.getStations(context);
                         plotStations();
                         break;
                 }

@@ -23,7 +23,7 @@
         android:text="@string/notif_default_title"
         android:maxLength="30"
         android:gravity="center_vertical"
-        android:textSize="@dimen/notification_title"
+        android:textSize="@dimen/notification_subtitle"
         android:textColor="@color/secondaryTextColorDark"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
@@ -36,15 +36,25 @@
     <FrameLayout
         android:layout_width="@dimen/notification_small_height"
         android:layout_height="@dimen/notification_small_height"
+        android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true">
 
-        <Button
-            android:id="@+id/stop"
+        <ImageView
             android:layout_width="@dimen/notification_icon_dimensions"
             android:layout_height="@dimen/notification_icon_dimensions"
             android:background="@drawable/ic_stop_dark"
+            android:scaleType="center"
             android:layout_gravity="center"
-            android:contentDescription="@string/notif_default_title" />
+            android:id="@+id/close_bg" />
+
+        <Button
+            android:id="@+id/stop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:contentDescription="@string/notif_default_title"
+            android:background="@android:color/transparent" />
+
     </FrameLayout>
 </RelativeLayout>

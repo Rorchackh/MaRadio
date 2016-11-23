@@ -1,24 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!--
-* Copyright (C) 2013 The Android Open Source Project
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*       http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
--->
-
-<!-- Layout for the expanded notification. -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:background="@color/secondaryColorDark"
@@ -100,51 +82,73 @@
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:clickable="false">
-                <Button
-                    android:id="@+id/prev"
+
+                <ImageView
                     android:layout_width="@dimen/notification_icon_dimensions"
                     android:layout_height="@dimen/notification_icon_dimensions"
+                    android:scaleType="center"
                     android:background="@drawable/ic_prev_dark"
+                    android:layout_gravity="center" />
+
+                <Button
+                    android:id="@+id/prev"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
                     android:layout_gravity="center"
                     android:gravity="center" />
             </FrameLayout>
 
-            <RelativeLayout
+            <FrameLayout
                 android:id="@+id/toggle_container"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:clickable="false">
-                <Button
+
+                <ImageView
                     android:layout_width="@dimen/notification_icon_dimensions"
                     android:layout_height="@dimen/notification_icon_dimensions"
-                    android:id="@+id/toggle"
+                    android:scaleType="center"
                     android:background="@drawable/ic_pause_dark"
+                    android:layout_gravity="center"
+                    android:id="@+id/toggle_bg" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/toggle"
+                    android:background="@android:color/transparent"
                     android:layout_centerInParent="true"
                     android:gravity="center"
                     android:indeterminate="true" />
 
                 <ProgressBar
                     android:id="@+id/loader"
-                    android:layout_width="@dimen/notification_icon_dimensions"
-                    android:layout_height="@dimen/notification_icon_dimensions"
-                    android:layout_centerInParent="true"
-                    android:gravity="center"
-                    android:indeterminate="true"
-                    android:visibility="invisible" />
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center" />
 
-            </RelativeLayout>
+            </FrameLayout>
 
             <FrameLayout
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:clickable="false">
-                <Button
-                    android:id="@+id/next"
+
+                <ImageView
                     android:layout_width="@dimen/notification_icon_dimensions"
                     android:layout_height="@dimen/notification_icon_dimensions"
+                    android:scaleType="center"
                     android:background="@drawable/ic_next_dark"
+                    android:layout_gravity="center" />
+
+                <Button
+                    android:id="@+id/next"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
                     android:layout_gravity="center"
                     android:gravity="center" />
             </FrameLayout>
