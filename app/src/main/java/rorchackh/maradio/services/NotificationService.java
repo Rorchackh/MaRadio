@@ -5,8 +5,10 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -71,11 +73,18 @@ public class NotificationService {
         PendingIntent nextPendingIntent = PendingIntent.getBroadcast(context, 1, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         int index = Globals.stationList.indexOf(Globals.currentStation);
-
         if (index < Globals.stationList.size() - 1) {
             expandedViews.setOnClickPendingIntent(R.id.next, nextPendingIntent);
+
+            expandedViews.setInt(R.id.next_enabled, "setVisibility", View.VISIBLE);
+            expandedViews.setInt(R.id.next_disabled, "setVisibility", View.GONE);
+
         } else {
             expandedViews.setOnClickPendingIntent(R.id.next, null);
+
+            expandedViews.setInt(R.id.next_enabled, "setVisibility", View.GONE);
+            expandedViews.setInt(R.id.next_disabled, "setVisibility", View.VISIBLE);
+
             nextPendingIntent.cancel();
         }
 
@@ -84,9 +93,15 @@ public class NotificationService {
         PendingIntent prevPendingIntent = PendingIntent.getBroadcast(context, 2, prevIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         if (index > 0) {
             expandedViews.setOnClickPendingIntent(R.id.prev, prevPendingIntent);
+
+            expandedViews.setInt(R.id.prev_enabled, "setVisibility", View.VISIBLE);
+            expandedViews.setInt(R.id.prev_disabled, "setVisibility", View.GONE);
         } else {
             expandedViews.setOnClickPendingIntent(R.id.prev, null);
             prevPendingIntent.cancel();
+
+            expandedViews.setInt(R.id.prev_enabled, "setVisibility", View.GONE);
+            expandedViews.setInt(R.id.prev_disabled, "setVisibility", View.VISIBLE);
         }
 
 

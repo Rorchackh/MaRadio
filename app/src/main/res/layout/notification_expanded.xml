@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:background="@color/secondaryColorDark"
@@ -28,7 +29,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingBottom="0dp"
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:paddingEnd="@dimen/activity_horizontal_margin"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_small_margin">
 
                 <TextView
@@ -60,7 +64,6 @@
                     android:layout_width="@dimen/notification_icon_dimensions"
                     android:layout_height="@dimen/notification_icon_dimensions"
                     android:background="@drawable/ic_stop_dark"
-                    android:layout_alignParentRight="false"
                     android:clickable="false"
                     android:gravity="center"
                     android:layout_gravity="center" />
@@ -78,8 +81,8 @@
             android:layout_height="match_parent">
 
             <FrameLayout
-                android:layout_width="0dp"
                 android:layout_weight="1"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clickable="false">
 
@@ -87,8 +90,19 @@
                     android:layout_width="@dimen/notification_icon_dimensions"
                     android:layout_height="@dimen/notification_icon_dimensions"
                     android:scaleType="center"
+                    android:background="@drawable/ic_prev_lighter"
+                    android:layout_gravity="center"
+                    android:id="@+id/prev_disabled"
+                    android:contentDescription="@string/cast_skip_prev" />
+
+                <ImageView
+                    android:layout_width="@dimen/notification_icon_dimensions"
+                    android:layout_height="@dimen/notification_icon_dimensions"
+                    android:scaleType="center"
                     android:background="@drawable/ic_prev_dark"
-                    android:layout_gravity="center" />
+                    android:layout_gravity="center"
+                    android:id="@+id/prev_enabled"
+                    android:contentDescription="@string/cast_skip_prev" />
 
                 <Button
                     android:id="@+id/prev"
@@ -100,40 +114,41 @@
             </FrameLayout>
 
             <FrameLayout
-                android:id="@+id/toggle_container"
-                android:layout_width="0dp"
                 android:layout_weight="1"
+                android:id="@+id/toggle_container"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clickable="false">
 
                 <ImageView
-                    android:layout_width="@dimen/notification_icon_dimensions"
+                    android:layout_width="30dp"
                     android:layout_height="@dimen/notification_icon_dimensions"
                     android:scaleType="center"
                     android:background="@drawable/ic_pause_dark"
                     android:layout_gravity="center"
-                    android:id="@+id/toggle_bg" />
+                    android:id="@+id/toggle_bg"
+                    android:contentDescription="@string/cast_skip_prev" />
+
+                <ProgressBar
+                    android:id="@+id/loader"
+                    android:layout_width="@dimen/notification_icon_dimensions"
+                    android:layout_height="@dimen/notification_icon_dimensions"
+                    android:layout_gravity="center"
+                    tools:visibility="invisible" />
 
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/toggle"
                     android:background="@android:color/transparent"
-                    android:layout_centerInParent="true"
                     android:gravity="center"
                     android:indeterminate="true" />
-
-                <ProgressBar
-                    android:id="@+id/loader"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center" />
 
             </FrameLayout>
 
             <FrameLayout
-                android:layout_width="0dp"
                 android:layout_weight="1"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clickable="false">
 
@@ -141,8 +156,20 @@
                     android:layout_width="@dimen/notification_icon_dimensions"
                     android:layout_height="@dimen/notification_icon_dimensions"
                     android:scaleType="center"
+                    android:background="@drawable/ic_next_lighter"
+                    android:layout_gravity="center"
+                    android:id="@+id/next_disabled"
+                    android:contentDescription="@string/cast_skip_next" />
+
+                <ImageView
+                    android:layout_width="@dimen/notification_icon_dimensions"
+                    android:layout_height="@dimen/notification_icon_dimensions"
+                    android:scaleType="center"
                     android:background="@drawable/ic_next_dark"
-                    android:layout_gravity="center" />
+                    android:layout_gravity="center"
+                    android:id="@+id/next_enabled"
+                    android:visibility="visible"
+                    android:contentDescription="@string/cast_skip_next" />
 
                 <Button
                     android:id="@+id/next"
@@ -154,6 +181,6 @@
             </FrameLayout>
 
         </LinearLayout>
-
     </LinearLayout>
+
 </LinearLayout>

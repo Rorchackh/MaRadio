@@ -9,7 +9,7 @@ import com.google.android.gms.cast.framework.SessionProvider;
 
 import java.util.List;
 
-class CastOptionsReceiver implements OptionsProvider {
+public class CastOptionsReceiver implements OptionsProvider {
     @Override
     public CastOptions getCastOptions(Context appContext) {
         CastOptions castOptions = new CastOptions.Builder()
